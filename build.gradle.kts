@@ -1,7 +1,7 @@
 plugins {
     java
-    id("org.springframework.boot") version "3.3.4"
-    id("io.spring.dependency-management") version "1.1.6"
+    alias(libs.plugins.springboot.core)
+    alias(libs.plugins.springboot.deps)
 }
 
 group = "com.nbusto"
@@ -23,21 +23,21 @@ dependencies {
     ////////////////////////
 
     // Spring
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation(libs.springboot.actuator)
+    implementation(libs.springboot.web)
 
     ////////////////////////
     //         Test       //
     ////////////////////////
 
     // Spring
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation(libs.springboot.test)
 
     // Junit
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testRuntimeOnly(libs.junit.launcher)
 
     // Architecture
-    testImplementation("com.tngtech.archunit:archunit-junit5:1.3.0")
+    testImplementation(libs.archunit)
 }
 
 tasks.withType<Test> {
