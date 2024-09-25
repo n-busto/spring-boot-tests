@@ -18,10 +18,26 @@ repositories {
 }
 
 dependencies {
+    ////////////////////////
+    //   Implementation   //
+    ////////////////////////
+
+    // Spring
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
+
+    ////////////////////////
+    //         Test       //
+    ////////////////////////
+
+    // Spring
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    // Junit
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    // Architecture
+    testImplementation("com.tngtech.archunit:archunit-junit5:1.3.0")
 }
 
 tasks.withType<Test> {
