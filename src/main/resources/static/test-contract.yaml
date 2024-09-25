@@ -1,0 +1,25 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Spring boot test
+servers:
+  - url: http://localhost:8080
+paths:
+  /healthcheck:
+    get:
+      summary: Returns service status
+      description: ''
+      operationId: healthcheck
+      tags:
+        - status
+      responses:
+        '200':
+          description: Default error sample response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "UP"
