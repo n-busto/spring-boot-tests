@@ -26,6 +26,12 @@ dependencies {
     implementation(libs.springboot.actuator)
     implementation(libs.springboot.web)
 
+    // Lombok
+    compileOnly(libs.lombok)
+    annotationProcessor(libs.lombok)
+    testCompileOnly(libs.lombok)
+    testAnnotationProcessor(libs.lombok)
+
     ////////////////////////
     //         Test       //
     ////////////////////////

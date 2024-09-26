@@ -3,12 +3,16 @@ springboot-core-version = "3.3.4"
 springboot-deps-version = "1.1.6"
 arch-unit-version = "1.3.0"
 karate-version = "1.5.0"
+lombok-version = "1.18.34"
 
 [libraries]
 # Spring
 springboot-actuator = { group = "org.springframework.boot", name = "spring-boot-starter-actuator" }
 springboot-web = { group = "org.springframework.boot", name = "spring-boot-starter-web" }
 springboot-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
+
+# Lombok
+lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok-version" }
 
 # Test
 junit-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
