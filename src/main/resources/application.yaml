@@ -1,7 +1,8 @@
 spring:
   application:
     name: spring-boot-tests
-management:
+  main:
+    banner-mode: off
   endpoints:
     web:
       base-path: /
