@@ -2,6 +2,7 @@
 springboot-core-version = "3.3.4"
 springboot-deps-version = "1.1.6"
 arch-unit-version = "1.3.0"
+karate-version = "1.5.0"
 
 [libraries]
 # Spring
@@ -12,6 +13,7 @@ springboot-test = { group = "org.springframework.boot", name = "spring-boot-star
 # Test
 junit-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
 archunit = { group = "com.tngtech.archunit", name = "archunit-junit5", version.ref = "arch-unit-version" }
+karate = { group = "io.karatelabs", name = "karate-junit5", version.ref = "karate-version" }
 
 [plugins]
 springboot-core = { id = "org.springframework.boot", version.ref = "springboot-core-version" }

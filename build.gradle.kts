@@ -9,7 +9,7 @@ version = "0.0.1-SNAPSHOT"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(23)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
@@ -38,6 +38,9 @@ dependencies {
 
     // Architecture
     testImplementation(libs.archunit)
+
+    // Karate
+    testImplementation(libs.karate)
 }
 
 tasks.withType<Test> {
