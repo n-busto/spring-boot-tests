@@ -16,7 +16,8 @@ class CommonArchitectureRulesTest {
   @ArchTest
   public static final ArchRule CLASSES_MAY_HAVE_DESCRIPTIVE_NAMES = classes()
     .should().haveSimpleNameNotEndingWith("Impl")
-    .andShould().haveSimpleNameNotEndingWith("I");
+    .andShould().haveSimpleNameNotEndingWith("I")
+    .andShould().haveSimpleNameNotEndingWith("Test");
 
   @ArchTest
   public static final ArchRule CLASSES_MAY_BE_IN_BASE_PACKAGE = classes()
