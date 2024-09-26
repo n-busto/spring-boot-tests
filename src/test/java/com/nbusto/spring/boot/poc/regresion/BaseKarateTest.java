@@ -1,7 +1,7 @@
 package com.nbusto.spring.boot.poc.regresion;
 
 import com.intuit.karate.junit5.Karate;
-import com.nbusto.spring.boot.poc.SpringBootTestsApplication;
+import com.nbusto.spring.boot.poc.spring.SpringBootTestsApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
