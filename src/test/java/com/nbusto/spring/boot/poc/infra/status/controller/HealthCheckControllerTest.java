@@ -2,22 +2,19 @@ package com.nbusto.spring.boot.poc.infra.status.controller;
 
 import com.nbusto.spring.boot.poc.application.status.usecase.HealthCheckUseCase;
 import com.nbusto.spring.boot.poc.domain.status.Health;
-import com.nbusto.spring.boot.poc.spring.SpringBootTestsApplication;
+import com.nbusto.spring.boot.poc.infra.annotations.ControllerTest;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = HealthCheckController.class)
-@ContextConfiguration(classes = SpringBootTestsApplication.class)
+@ControllerTest(controllers = HealthCheckController.class)
 class HealthCheckControllerTest {
 
   @Autowired

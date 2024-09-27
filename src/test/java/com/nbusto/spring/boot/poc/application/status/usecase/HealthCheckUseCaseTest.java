@@ -1,17 +1,16 @@
 package com.nbusto.spring.boot.poc.application.status.usecase;
 
+import com.nbusto.spring.boot.poc.application.ApplicationTest;
 import com.nbusto.spring.boot.poc.application.status.port.HealthPort;
 import com.nbusto.spring.boot.poc.domain.status.Health;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.BDDMockito.given;
 
-@ExtendWith(MockitoExtension.class)
+@ApplicationTest
 class HealthCheckUseCaseTest {
 
   @Mock

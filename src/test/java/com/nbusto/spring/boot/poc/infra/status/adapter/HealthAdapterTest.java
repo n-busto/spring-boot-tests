@@ -1,15 +1,12 @@
 package com.nbusto.spring.boot.poc.infra.status.adapter;
 
+import com.nbusto.spring.boot.poc.infra.annotations.AdapterTest;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.BDDAssertions.then;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = HealthAdapter.class)
+@AdapterTest(classes = HealthAdapter.class)
 class HealthAdapterTest {
 
   @Autowired
