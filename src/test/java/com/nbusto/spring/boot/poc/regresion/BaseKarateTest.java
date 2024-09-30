@@ -23,9 +23,10 @@ public abstract class BaseKarateTest {
 
   @Karate.Test
   Karate testFeature() {
-    return Karate.run("classpath:karate/scenarios/" + getScenarioName())
+    return Karate.run("classpath:karate/scenarios/" + getFeatureName())
+      .failWhenNoScenariosFound(true)
       .systemProperty("karate.server.port", webContext.getWebServer().getPort() + "");
   }
 
-  protected abstract String getScenarioName();
+  protected abstract String getFeatureName();
 }

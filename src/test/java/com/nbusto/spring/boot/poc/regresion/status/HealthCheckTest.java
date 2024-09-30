@@ -4,7 +4,7 @@ import com.nbusto.spring.boot.poc.regresion.BaseKarateTest;
 
 class HealthCheckTest extends BaseKarateTest {
   @Override
-  protected String getScenarioName() {
+  protected String getFeatureName() {
     return "health-check.feature";
   }
 }
