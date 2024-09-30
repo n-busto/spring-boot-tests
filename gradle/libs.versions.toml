@@ -4,6 +4,7 @@ springboot-deps-version = "1.1.6"
 arch-unit-version = "1.3.0"
 karate-version = "1.5.0"
 lombok-version = "1.18.34"
+swagger-validator-version = "2.42.0"
 
 [libraries]
 # Spring
@@ -18,6 +19,8 @@ lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok-v
 junit-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
 archunit = { group = "com.tngtech.archunit", name = "archunit-junit5", version.ref = "arch-unit-version" }
 karate = { group = "io.karatelabs", name = "karate-junit5", version.ref = "karate-version" }
+swagger-validator-mockmvc = { group = "com.atlassian.oai", name = "swagger-request-validator-mockmvc", version.ref = "swagger-validator-version" }
+swagger-validator-core = { group = "com.atlassian.oai", name = "swagger-request-validator-core", version.ref = "swagger-validator-version" }
 
 [plugins]
 springboot-core = { id = "org.springframework.boot", version.ref = "springboot-core-version" }

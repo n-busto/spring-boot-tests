@@ -47,6 +47,10 @@ dependencies {
 
     // Karate
     testImplementation(libs.karate)
+
+    // Swagger
+    testImplementation(libs.swagger.validator.mockmvc)
+    testImplementation(libs.swagger.validator.core)
 }
 
 tasks.withType<Test> {
