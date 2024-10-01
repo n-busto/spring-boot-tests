@@ -1,4 +1,4 @@
-package com.nbusto.spring.boot.poc.infra.annotations;
+package com.nbusto.spring.boot.poc.infra.common.annotations;
 
 import com.nbusto.spring.boot.poc.infra.status.controller.HealthCheckController;
 import com.nbusto.spring.boot.poc.spring.SpringBootTestsApplication;
