@@ -5,6 +5,8 @@ arch-unit-version = "1.3.0"
 karate-version = "1.5.0"
 lombok-version = "1.18.34"
 swagger-validator-version = "2.42.0"
+junit-api-version = "5.11.1"
+junit-mockito-version = "5.14.1"
 
 [libraries]
 # Spring
@@ -17,6 +19,8 @@ lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok-v
 
 # Test
 junit-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
+junit-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit-api-version" }
+junit-mockito = { group = "org.mockito", name = "mockito-junit-jupiter", version.ref = "junit-mockito-version" }
 archunit = { group = "com.tngtech.archunit", name = "archunit-junit5", version.ref = "arch-unit-version" }
 karate = { group = "io.karatelabs", name = "karate-junit5", version.ref = "karate-version" }
 swagger-validator-mockmvc = { group = "com.atlassian.oai", name = "swagger-request-validator-mockmvc", version.ref = "swagger-validator-version" }

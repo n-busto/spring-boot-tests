@@ -1,5 +1,6 @@
 plugins {
     java
+    `java-test-fixtures`
     alias(libs.plugins.springboot.core)
     alias(libs.plugins.springboot.deps)
 }
@@ -38,9 +39,13 @@ dependencies {
 
     // Spring
     testImplementation(libs.springboot.test)
+    testFixturesImplementation(libs.springboot.test)
+    testFixturesImplementation(libs.springboot.web)
 
     // Junit
-    testRuntimeOnly(libs.junit.launcher)
+    testFixturesRuntimeOnly(libs.junit.launcher)
+    testFixturesImplementation(libs.junit.api)
+    testFixturesImplementation(libs.junit.mockito)
 
     // Architecture
     testImplementation(libs.archunit)
@@ -49,8 +54,8 @@ dependencies {
     testImplementation(libs.karate)
 
     // Swagger
-    testImplementation(libs.swagger.validator.mockmvc)
-    testImplementation(libs.swagger.validator.core)
+    testFixturesImplementation(libs.swagger.validator.mockmvc)
+    testFixturesImplementation(libs.swagger.validator.core)
 }
 
 tasks.withType<Test> {

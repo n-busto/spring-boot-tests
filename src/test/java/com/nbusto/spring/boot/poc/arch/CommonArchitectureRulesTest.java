@@ -14,7 +14,10 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
 @AnalyzeClasses(
   packages = "com.nbusto.spring.boot.poc",
-  importOptions = ImportOption.DoNotIncludeTests.class)
+  importOptions = {
+    ImportOption.DoNotIncludeTests.class,
+    ImportOption.DoNotIncludeGradleTestFixtures.class
+  })
 class CommonArchitectureRulesTest {
 
   @ArchTest

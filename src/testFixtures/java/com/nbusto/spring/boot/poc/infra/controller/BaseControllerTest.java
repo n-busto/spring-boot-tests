@@ -1,4 +1,4 @@
-package com.nbusto.spring.boot.poc.infra.common.controller;
+package com.nbusto.spring.boot.poc.infra.controller;
 
 import com.atlassian.oai.validator.OpenApiInteractionValidator;
 import org.springframework.beans.factory.annotation.Autowired;

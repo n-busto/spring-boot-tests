@@ -1,7 +1,7 @@
 package com.nbusto.spring.boot.poc.arch;
 
 import com.nbusto.spring.boot.poc.application.ApplicationTest;
-import com.nbusto.spring.boot.poc.infra.common.annotations.ControllerTest;
+import com.nbusto.spring.boot.poc.infra.annotations.ControllerTest;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;

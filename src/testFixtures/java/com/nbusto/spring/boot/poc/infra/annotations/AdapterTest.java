@@ -1,4 +1,4 @@
-package com.nbusto.spring.boot.poc.infra.common.annotations;
+package com.nbusto.spring.boot.poc.infra.annotations;
 
 import com.nbusto.spring.boot.poc.infra.status.adapter.HealthAdapter;
 import org.junit.jupiter.api.extension.ExtendWith;

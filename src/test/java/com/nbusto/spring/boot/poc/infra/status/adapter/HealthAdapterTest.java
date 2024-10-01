@@ -1,6 +1,6 @@
 package com.nbusto.spring.boot.poc.infra.status.adapter;
 
-import com.nbusto.spring.boot.poc.infra.common.annotations.AdapterTest;
+import com.nbusto.spring.boot.poc.infra.annotations.AdapterTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

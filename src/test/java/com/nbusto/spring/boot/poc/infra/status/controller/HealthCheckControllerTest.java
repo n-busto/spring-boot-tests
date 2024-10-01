@@ -2,8 +2,8 @@ package com.nbusto.spring.boot.poc.infra.status.controller;
 
 import com.nbusto.spring.boot.poc.application.status.usecase.HealthCheckUseCase;
 import com.nbusto.spring.boot.poc.domain.status.Health;
-import com.nbusto.spring.boot.poc.infra.common.annotations.ControllerTest;
-import com.nbusto.spring.boot.poc.infra.common.controller.BaseControllerTest;
+import com.nbusto.spring.boot.poc.infra.annotations.ControllerTest;
+import com.nbusto.spring.boot.poc.infra.controller.BaseControllerTest;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
