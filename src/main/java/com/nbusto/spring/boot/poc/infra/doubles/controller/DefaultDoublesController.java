@@ -1,6 +1,6 @@
 package com.nbusto.spring.boot.poc.infra.doubles.controller;
 
-import com.nbusto.spring.boot.poc.application.status.usecase.CalculateDoubleUseCase;
+import com.nbusto.spring.boot.poc.application.doubles.usecase.CalculateDoubleUseCase;
 import com.nbusto.spring.boot.poc.infra.doubles.response.DefaultDoubleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
