@@ -20,11 +20,11 @@ Feature: Verify doubles functionallity
     Given path '/doubles/decimal_comma'
     When method GET
     Then status 200
-    And match response == { value: "#number" }
+    And match response == { value: "#string" }
 
   Scenario: Specific double with decimal comma formatting
     Given path '/doubles/decimal_comma'
     And param value = 12.5
     When method GET
     Then status 200
-    And response.value = 12.5
+    And response.value = "12,5"

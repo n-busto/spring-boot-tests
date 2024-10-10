@@ -33,7 +33,7 @@ class DefaultDoublesControllerTest extends BaseControllerTest {
   }
 
   @ParameterizedTest
-  @ValueSource(doubles = {0.5, 0.12, -1.10, 12.20, 0.0})
+  @ValueSource(doubles = {0.5, 0.12, -1.10, 12.20, 0.0, -1})
   void given_a_value_then_is_returned_with_right_format(Double value)
     throws Exception {
     // Given
