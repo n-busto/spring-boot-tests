@@ -40,14 +40,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  double:
+                  value:
                     type: number
                     format: double
   /doubles/decimal_comma:
     get:
       summary: Returns a double formatted with decimal comma
       description: ''
-      operationId: default-double
+      operationId: decimal-double
       tags:
         - doubles
       parameters:
@@ -60,7 +60,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  double:
+                  value:
                     type: number
                     format: double
 components:
