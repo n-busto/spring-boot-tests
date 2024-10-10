@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.0.0
+  version: 1.1.0
   title: Spring boot test
 servers:
   - url: http://localhost:8080
@@ -23,3 +23,32 @@ paths:
                   status:
                     type: string
                     example: "UP"
+  /doubles/default:
+    get:
+      summary: Returns a default formatted double
+      description: ''
+      operationId: default-double
+      tags:
+        - doubles
+      parameters:
+        - $ref: "#/components/parameters/doubleParam"
+      responses:
+        "200":
+          description: "Returns a double default formatted"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  double:
+                    type: number
+                    format: double
+components:
+  parameters:
+    doubleParam:
+      name: double
+      in: query
+      description: Optional double to be returned
+      schema:
+        type: number
+        format: double
