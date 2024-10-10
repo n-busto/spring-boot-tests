@@ -42,7 +42,7 @@ class DefaultDoublesControllerTest extends BaseControllerTest {
 
     // Expect
     expectRightValue(
-      get("/doubles/default").param("value", String.valueOf(value)),
+      get("/doubles/default").queryParam("value", String.valueOf(value)),
       value);
   }
 

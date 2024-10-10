@@ -9,6 +9,6 @@ public class CalculateDoubleUseCase {
 
   public Double calculateIfNotPresent(Double value) {
     return Optional.ofNullable(value)
-      .orElse(new Random().nextDouble((MAX_VALUE - MIN_VALUE) + 1) + MIN_VALUE);
+      .orElse(new Random().nextDouble(MAX_VALUE - MIN_VALUE) + MIN_VALUE);
   }
 }

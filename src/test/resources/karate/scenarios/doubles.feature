@@ -7,24 +7,24 @@ Feature: Verify doubles functionallity
     Given path '/doubles/default'
     When method GET
     Then status 200
-    And match response == { double: "#number" }
+    And match response == { value: "#number" }
 
   Scenario: Specific double with default formatting
     Given path '/doubles/default'
     And param value = 12.5
     When method GET
     Then status 200
-    And match response == { double: 12.5 }
+    And response.value = 12.5
 
-  Scenario: Double with default formatting
+  Scenario: Double with decimal comma formatting
     Given path '/doubles/decimal_comma'
     When method GET
     Then status 200
-    And match response == { double: "#number" }
+    And match response == { value: "#number" }
 
-  Scenario: Specific double with default formatting
+  Scenario: Specific double with decimal comma formatting
     Given path '/doubles/decimal_comma'
     And param value = 12.5
     When method GET
     Then status 200
-    And match response == { double: 12.5 }
+    And response.value = 12.5
