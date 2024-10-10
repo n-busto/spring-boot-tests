@@ -43,6 +43,26 @@ paths:
                   double:
                     type: number
                     format: double
+  /doubles/decimal_comma:
+    get:
+      summary: Returns a double formatted with decimal comma
+      description: ''
+      operationId: default-double
+      tags:
+        - doubles
+      parameters:
+        - $ref: "#/components/parameters/doubleParam"
+      responses:
+        "200":
+          description: "Returns a double formatted with decimal comma"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  double:
+                    type: number
+                    format: double
 components:
   parameters:
     doubleParam:
