@@ -1,0 +1,7 @@
+### Doubles decimal comma
+// @no-log
+GET {{baseUrl}}/doubles/decimal_comma?value=15.50
+
+### Doubles default
+// @no-log
+GET {{baseUrl}}/doubles/default?value=15.50

@@ -1,0 +1,5 @@
+### Actuator base
+GET {{baseUrl}}/actuator
+
+### Actuator health
+GET {{baseUrl}}/actuator/health
