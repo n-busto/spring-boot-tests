@@ -63,6 +63,18 @@ paths:
                   value:
                     type: string
                     pattern: ^-?[0-9]+.?[0-9]*$
+  /validation:
+    post:
+      summary: Returns OK if request is valid
+      description: ''
+      operationId: validation
+      tags:
+        - validation
+      requestBody:
+        $ref: "#/components/requestBodies/validationRequest"
+      responses:
+        "200":
+          description: "Valid object provided"
 components:
   parameters:
     doubleParam:
@@ -72,3 +84,34 @@ components:
       schema:
         type: number
         format: double
+  schemas:
+    validationBody:
+      title: A validation body
+      type: object
+      properties:
+        innerClass:
+          type: object
+          properties:
+            string:
+              type: string
+            integer:
+              type: integer
+            doubleValue:
+              type: number
+        array:
+          type: array
+          items:
+            type: string
+        string:
+          type: string
+        integer:
+          type: integer
+        doubleValue:
+          type: number
+  requestBodies:
+    validationRequest:
+      description: "Validation request"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/validationBody"
