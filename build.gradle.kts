@@ -30,8 +30,11 @@ dependencies {
     // Lombok
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
-    testCompileOnly(libs.lombok)
+    testFixturesCompileOnly(libs.lombok)
     testAnnotationProcessor(libs.lombok)
+
+    // Instancio
+    testFixturesImplementation(libs.instancio)
 
     ////////////////////////
     //         Test       //
