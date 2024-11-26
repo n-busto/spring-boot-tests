@@ -26,15 +26,13 @@ dependencies {
     // Spring
     implementation(libs.springboot.actuator)
     implementation(libs.springboot.web)
+    implementation(libs.springboot.validator)
 
     // Lombok
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
     testFixturesCompileOnly(libs.lombok)
     testAnnotationProcessor(libs.lombok)
-
-    // Instancio
-    testFixturesImplementation(libs.instancio)
 
     ////////////////////////
     //         Test       //
@@ -59,6 +57,9 @@ dependencies {
     // Swagger
     testFixturesImplementation(libs.swagger.validator.mockmvc)
     testFixturesImplementation(libs.swagger.validator.core)
+
+    // Instancio
+    testFixturesImplementation(libs.instancio)
 }
 
 tasks.withType<Test> {
