@@ -4,6 +4,7 @@ import com.nbusto.spring.boot.poc.application.status.usecase.HealthCheckUseCase;
 import com.nbusto.spring.boot.poc.domain.status.Health;
 import com.nbusto.spring.boot.poc.infra.annotations.ControllerTest;
 import com.nbusto.spring.boot.poc.infra.controller.BaseControllerTest;
+import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,7 +24,7 @@ class HealthCheckControllerTest extends BaseControllerTest {
     BDDMockito.given(useCase.getHealth()).willReturn(new Health("DOWN"));
 
     // Expect
-    performAction(get("/healthcheck"), 200)
+    performAction(get("/healthcheck"), HttpStatus.SC_OK)
       .andExpect(content().json("{ \"status\": \"DOWN\" }"));
   }
 
@@ -33,7 +34,7 @@ class HealthCheckControllerTest extends BaseControllerTest {
     BDDMockito.given(useCase.getHealth()).willReturn(new Health("UP"));
 
     // Expect
-    performAction(get("/healthcheck"), 200)
+    performAction(get("/healthcheck"), HttpStatus.SC_OK)
       .andExpect(content().json("{ \"status\": \"UP\" }"));
   }
 }

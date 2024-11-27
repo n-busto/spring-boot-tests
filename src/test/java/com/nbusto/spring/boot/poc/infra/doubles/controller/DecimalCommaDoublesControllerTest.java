@@ -3,6 +3,7 @@ package com.nbusto.spring.boot.poc.infra.doubles.controller;
 import com.nbusto.spring.boot.poc.application.doubles.usecase.CalculateDoubleUseCase;
 import com.nbusto.spring.boot.poc.infra.annotations.ControllerTest;
 import com.nbusto.spring.boot.poc.infra.controller.BaseControllerTest;
+import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -49,7 +50,7 @@ class DecimalCommaDoublesControllerTest extends BaseControllerTest {
   private void expectRightValue(
     MockHttpServletRequestBuilder action,
     double expectedValue) throws Exception {
-    performAction(action, 200)
+    performAction(action, HttpStatus.SC_OK)
       .andExpect(jsonPath("$.value").exists())
       .andExpect(jsonPath("$.value").isString())
       .andExpect(jsonPath("$.value", is(Double.toString(expectedValue).replace(".", ","))))
