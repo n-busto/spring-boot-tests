@@ -11,13 +11,6 @@ import static org.instancio.Select.field;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TestRequestMother {
 
-  public static TestRequest random() {
-    return of(TestRequest.class)
-      .generate(field(TestRequest::integer), it -> it.ints().min(0))
-      .generate(field(TestRequest::doubleValue), it -> it.doubles().min(0.0))
-      .create();
-  }
-
   public static TestRequest withNullInnerObject() {
     return of(TestRequest.class)
       .generate(field(TestRequest::integer), it -> it.ints().min(0))

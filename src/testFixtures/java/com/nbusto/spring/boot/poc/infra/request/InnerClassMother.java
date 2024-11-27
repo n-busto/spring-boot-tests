@@ -10,6 +10,13 @@ import static org.instancio.Select.field;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class InnerClassMother {
 
+  public static InnerClass random() {
+    return of(InnerClass.class)
+      .generate(field(InnerClass::integer), it -> it.ints().min(0))
+      .generate(field(InnerClass::doubleValue), it -> it.doubles().max(-0.00001))
+      .create();
+  }
+
   public static InnerClass withNullString() {
     return of(InnerClass.class)
       .ignore(field(InnerClass::string))

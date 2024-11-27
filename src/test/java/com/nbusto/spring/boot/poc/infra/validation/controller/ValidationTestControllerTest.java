@@ -49,10 +49,10 @@ public class ValidationTestControllerTest extends BaseControllerTest {
     // Given
     final var postRequest = post("/validation")
       .contentType(MediaType.APPLICATION_JSON)
-      .content(mapper.writeValueAsBytes(TestRequestMother.random()));
+      .content(mapper.writeValueAsBytes(TestRequestMother.withInnerObject(InnerClassMother.random())));
 
     // Then
-    performAction(postRequest, HttpStatus.SC_BAD_REQUEST);
+    performAction(postRequest, HttpStatus.SC_OK);
   }
 
   @ParameterizedTest
