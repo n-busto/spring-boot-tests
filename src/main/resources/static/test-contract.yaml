@@ -84,7 +84,7 @@ paths:
 components:
   parameters:
     doubleParam:
-      name: double
+      name: value
       in: query
       description: Optional double to be returned
       schema:
