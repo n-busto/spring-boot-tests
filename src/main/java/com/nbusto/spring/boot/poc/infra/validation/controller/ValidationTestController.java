@@ -1,6 +1,7 @@
 package com.nbusto.spring.boot.poc.infra.validation.controller;
 
 import com.nbusto.spring.boot.poc.infra.validation.request.TestRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ValidationTestController {
 
   @PostMapping
-  public ResponseEntity<Void> verifyValidation(@RequestBody TestRequest request) {
+  public ResponseEntity<String> verifyValidation(@Valid @RequestBody TestRequest request) {
     return ResponseEntity.ok(null);
   }
 }
