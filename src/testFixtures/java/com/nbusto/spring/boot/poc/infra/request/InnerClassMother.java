@@ -42,7 +42,7 @@ public class InnerClassMother {
 
   public static InnerClass withNegativeInteger() {
     return of(InnerClass.class)
-      .generate(field(InnerClass::integer), it -> it.ints().max(0))
+      .generate(field(InnerClass::integer), it -> it.ints().max(-1))
       .generate(field(InnerClass::doubleValue), it -> it.doubles().max(-0.00001))
       .create();
   }
@@ -54,10 +54,10 @@ public class InnerClassMother {
       .create();
   }
 
-  public static InnerClass withNegativeDouble() {
+  public static InnerClass withPositiveDouble() {
     return of(InnerClass.class)
       .generate(field(InnerClass::integer), it -> it.ints().min(0))
-      .generate(field(InnerClass::doubleValue), it -> it.doubles().max(0.0))
+      .generate(field(InnerClass::doubleValue), it -> it.doubles().min(0.00001))
       .create();
   }
 }

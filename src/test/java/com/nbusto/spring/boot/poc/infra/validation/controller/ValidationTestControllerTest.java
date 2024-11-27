@@ -23,27 +23,6 @@ public class ValidationTestControllerTest extends BaseControllerTest {
   @Autowired
   private ObjectMapper mapper;
 
-  private static Stream<TestRequest> invalidRequestGenerator() {
-    return Stream.of(
-      null,
-      TestRequestMother.withNullInnerObject(),
-      TestRequestMother.withInnerObject(InnerClassMother.withEmptyString()),
-      TestRequestMother.withInnerObject(InnerClassMother.withNullString()),
-      TestRequestMother.withInnerObject(InnerClassMother.withNullInteger()),
-      TestRequestMother.withInnerObject(InnerClassMother.withNegativeInteger()),
-      TestRequestMother.withInnerObject(InnerClassMother.withNullDouble()),
-      TestRequestMother.withInnerObject(InnerClassMother.withNegativeDouble()),
-      TestRequestMother.withNullArray(),
-      TestRequestMother.withEmptyArray(),
-      TestRequestMother.withEmptyString(),
-      TestRequestMother.withNullString(),
-      TestRequestMother.withNullInteger(),
-      TestRequestMother.withNegativeInteger(),
-      TestRequestMother.withNullDouble(),
-      TestRequestMother.withNegativeDouble()
-    );
-  }
-
   @Test
   void when_request_is_valid_expect_OK() throws Exception {
     // Given
@@ -62,6 +41,37 @@ public class ValidationTestControllerTest extends BaseControllerTest {
     final var postRequest = post("/validation")
       .contentType(MediaType.APPLICATION_JSON)
       .content(mapper.writeValueAsBytes(request));
+
+    // Then
+    performAction(postRequest, HttpStatus.SC_BAD_REQUEST);
+  }
+
+  private static Stream<TestRequest> invalidRequestGenerator() {
+    return Stream.of(
+      TestRequestMother.withNullInnerObject(),
+      TestRequestMother.withInnerObject(InnerClassMother.withEmptyString()),
+      TestRequestMother.withInnerObject(InnerClassMother.withNullString()),
+      TestRequestMother.withInnerObject(InnerClassMother.withNullInteger()),
+      TestRequestMother.withInnerObject(InnerClassMother.withNegativeInteger()),
+      TestRequestMother.withInnerObject(InnerClassMother.withNullDouble()),
+      TestRequestMother.withInnerObject(InnerClassMother.withPositiveDouble()),
+      TestRequestMother.withNullArray(),
+      TestRequestMother.withEmptyArray(),
+      TestRequestMother.withEmptyString(),
+      TestRequestMother.withNullString(),
+      TestRequestMother.withNullInteger(),
+      TestRequestMother.withNegativeInteger(),
+      TestRequestMother.withNullDouble(),
+      TestRequestMother.withNegativeDouble()
+    );
+  }
+
+  @Test
+  void when_request_is_is_empty_expect_badRequest() throws Exception {
+    // Given
+    final var postRequest = post("/validation")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content("{}");
 
     // Then
     performAction(postRequest, HttpStatus.SC_BAD_REQUEST);
