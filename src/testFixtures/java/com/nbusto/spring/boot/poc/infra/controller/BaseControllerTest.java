@@ -27,7 +27,7 @@ public abstract class BaseControllerTest {
   @Autowired
   private MockMvc mockMvc;
 
-  protected OpenApiInteractionValidator createValidator() throws IOException {
+  private OpenApiInteractionValidator createValidator() throws IOException {
     return createForInlineApiSpecification(
       resourceLoader.getResource(CONTRACT_YAML_PATH)
         .getContentAsString(Charset.defaultCharset()))
