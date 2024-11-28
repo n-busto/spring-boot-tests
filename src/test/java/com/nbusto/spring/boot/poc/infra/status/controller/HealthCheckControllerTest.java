@@ -3,17 +3,26 @@ package com.nbusto.spring.boot.poc.infra.status.controller;
 import com.nbusto.spring.boot.poc.application.status.usecase.HealthCheckUseCase;
 import com.nbusto.spring.boot.poc.domain.status.Health;
 import com.nbusto.spring.boot.poc.infra.annotations.ControllerTest;
-import com.nbusto.spring.boot.poc.infra.controller.BaseControllerTest;
-import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ControllerTest(controllers = HealthCheckController.class)
-class HealthCheckControllerTest extends BaseControllerTest {
+class HealthCheckControllerTest {
+
+  @Autowired
+  private MockMvc mockMvc;
+
+  @Autowired
+  private ResultMatcher openApiValidator;
 
   @MockBean
   private HealthCheckUseCase useCase;
@@ -24,8 +33,12 @@ class HealthCheckControllerTest extends BaseControllerTest {
     BDDMockito.given(useCase.getHealth()).willReturn(new Health("DOWN"));
 
     // Expect
-    performAction(get("/healthcheck"), HttpStatus.SC_OK)
-      .andExpect(content().json("{ \"status\": \"DOWN\" }"));
+    mockMvc.perform(get("/healthcheck")
+        .contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(content().json("{ \"status\": \"DOWN\" }"))
+      .andExpect(openApiValidator);
   }
 
   @Test
@@ -34,7 +47,11 @@ class HealthCheckControllerTest extends BaseControllerTest {
     BDDMockito.given(useCase.getHealth()).willReturn(new Health("UP"));
 
     // Expect
-    performAction(get("/healthcheck"), HttpStatus.SC_OK)
-      .andExpect(content().json("{ \"status\": \"UP\" }"));
+    mockMvc.perform(get("/healthcheck")
+        .contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(content().json("{ \"status\": \"UP\" }"))
+      .andExpect(openApiValidator);
   }
 }

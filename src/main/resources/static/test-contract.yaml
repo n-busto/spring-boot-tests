@@ -71,7 +71,7 @@ paths:
       tags:
         - validation
       requestBody:
-        $ref: "#/components/requestBodies/anyPropertyRequest"
+        $ref: "#/components/requestBodies/validationInput"
       responses:
         "200":
           description: "Valid object provided"
@@ -91,13 +91,35 @@ components:
         type: number
         format: double
   schemas:
+    validationRequest:
+      type: object
+      properties:
+        innerObject:
+          type: object
+          properties:
+            string:
+              type: string
+            integer:
+              type: integer
+            doubleValue:
+              type: number
+        array:
+          type: array
+          items:
+            type: string
+        string:
+          type: string
+        integer:
+          type: integer
+        doubleValue:
+          type: number
     acceptAny:
       type: object
       additionalProperties: true
   requestBodies:
-    anyPropertyRequest:
+    validationInput:
       description: "Validation request"
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/acceptAny"
+            $ref: "#/components/schemas/validationRequest"

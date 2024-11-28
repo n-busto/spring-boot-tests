@@ -2,22 +2,31 @@ package com.nbusto.spring.boot.poc.infra.doubles.controller;
 
 import com.nbusto.spring.boot.poc.application.doubles.usecase.CalculateDoubleUseCase;
 import com.nbusto.spring.boot.poc.infra.annotations.ControllerTest;
-import com.nbusto.spring.boot.poc.infra.controller.BaseControllerTest;
-import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ControllerTest(controllers = DecimalCommaDoublesController.class)
-class DecimalCommaDoublesControllerTest extends BaseControllerTest {
+class DecimalCommaDoublesControllerTest {
+
+  @Autowired
+  private MockMvc mockMvc;
+
+  @Autowired
+  private ResultMatcher openApiValidator;
 
   @MockBean
   private CalculateDoubleUseCase useCase;
@@ -30,7 +39,14 @@ class DecimalCommaDoublesControllerTest extends BaseControllerTest {
       .willReturn(123.45);
 
     // Expect
-    expectRightValue(get("/doubles/decimal_comma"), 123.45);
+    mockMvc.perform(get("/doubles/decimal_comma"))
+      .andExpect(status().isOk())
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(openApiValidator)
+      .andExpect(jsonPath("$.value").exists())
+      .andExpect(jsonPath("$.value").isString())
+      .andExpect(jsonPath("$.value", is(Double.toString(123.45).replace(".", ","))))
+      .andExpect(jsonPath("$.value", matchesPattern("^-?[0-9]+,?[0-9]*$")));
   }
 
   @ParameterizedTest
@@ -42,18 +58,14 @@ class DecimalCommaDoublesControllerTest extends BaseControllerTest {
       .willReturn(value);
 
     // Expect
-    expectRightValue(
-      get("/doubles/decimal_comma").queryParam("value", String.valueOf(value)),
-      value);
-  }
-
-  private void expectRightValue(
-    MockHttpServletRequestBuilder action,
-    double expectedValue) throws Exception {
-    performAction(action, HttpStatus.SC_OK)
+    mockMvc.perform(get("/doubles/decimal_comma")
+        .queryParam("value", String.valueOf(value)))
+      .andExpect(status().isOk())
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(openApiValidator)
       .andExpect(jsonPath("$.value").exists())
       .andExpect(jsonPath("$.value").isString())
-      .andExpect(jsonPath("$.value", is(Double.toString(expectedValue).replace(".", ","))))
+      .andExpect(jsonPath("$.value", is(Double.toString(value).replace(".", ","))))
       .andExpect(jsonPath("$.value", matchesPattern("^-?[0-9]+,?[0-9]*$")));
   }
 }

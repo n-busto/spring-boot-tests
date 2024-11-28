@@ -2,22 +2,31 @@ package com.nbusto.spring.boot.poc.infra.doubles.controller;
 
 import com.nbusto.spring.boot.poc.application.doubles.usecase.CalculateDoubleUseCase;
 import com.nbusto.spring.boot.poc.infra.annotations.ControllerTest;
-import com.nbusto.spring.boot.poc.infra.controller.BaseControllerTest;
-import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ControllerTest(controllers = DefaultDoublesController.class)
-class DefaultDoublesControllerTest extends BaseControllerTest {
+class DefaultDoublesControllerTest {
+
+  @Autowired
+  private MockMvc mockMvc;
+
+  @Autowired
+  private ResultMatcher openApiValidator;
 
   @MockBean
   private CalculateDoubleUseCase useCase;
@@ -30,7 +39,19 @@ class DefaultDoublesControllerTest extends BaseControllerTest {
       .willReturn(123.45);
 
     // Expect
-    expectRightValue(get("/doubles/default"), 123.45);
+    final var result = mockMvc.perform(get("/doubles/default")
+        .contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(jsonPath("$.value").exists())
+      .andExpect(jsonPath("$.value").isNumber())
+      .andExpect(jsonPath("$.value", equalTo(123.45)))
+      .andExpect(openApiValidator)
+      .andReturn()
+      .getResponse()
+      .getContentAsString();
+
+    then(result).matches("^.*[0-9]*[.][0-9]*}$");
   }
 
   @ParameterizedTest
@@ -42,18 +63,15 @@ class DefaultDoublesControllerTest extends BaseControllerTest {
       .willReturn(value);
 
     // Expect
-    expectRightValue(
-      get("/doubles/default").queryParam("value", String.valueOf(value)),
-      value);
-  }
-
-  private void expectRightValue(
-    MockHttpServletRequestBuilder action,
-    double expectedValue) throws Exception {
-    final var result = performAction(action, HttpStatus.SC_OK)
+    final var result = mockMvc.perform(get("/doubles/default")
+        .queryParam("value", String.valueOf(value))
+        .contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.value").exists())
       .andExpect(jsonPath("$.value").isNumber())
-      .andExpect(jsonPath("$.value", equalTo(expectedValue)))
+      .andExpect(jsonPath("$.value", equalTo(value)))
+      .andExpect(openApiValidator)
       .andReturn()
       .getResponse()
       .getContentAsString();
