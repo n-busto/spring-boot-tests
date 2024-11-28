@@ -31,26 +31,6 @@ public class ValidationTestControllerTest {
   @Autowired
   private ObjectMapper mapper;
 
-  private static Stream<TestRequest> invalidRequestGenerator() {
-    return Stream.of(
-      TestRequestMother.withNullInnerObject(),
-      TestRequestMother.withInnerObject(InnerObjectMother.withEmptyString()),
-      TestRequestMother.withInnerObject(InnerObjectMother.withNullString()),
-      TestRequestMother.withInnerObject(InnerObjectMother.withNullInteger()),
-      TestRequestMother.withInnerObject(InnerObjectMother.withNegativeInteger()),
-      TestRequestMother.withInnerObject(InnerObjectMother.withNullDouble()),
-      TestRequestMother.withInnerObject(InnerObjectMother.withPositiveDouble()),
-      TestRequestMother.withNullArray(),
-      TestRequestMother.withEmptyArray(),
-      TestRequestMother.withEmptyString(),
-      TestRequestMother.withNullString(),
-      TestRequestMother.withNullInteger(),
-      TestRequestMother.withNegativeInteger(),
-      TestRequestMother.withNullDouble(),
-      TestRequestMother.withNegativeDouble()
-    );
-  }
-
   @ParameterizedTest
   @MethodSource("invalidRequestGenerator")
   void when_request_is_not_valid_expect_badRequest(TestRequest request) throws Exception {
@@ -87,5 +67,25 @@ public class ValidationTestControllerTest {
         .content(request))
       .andExpect(status().isBadRequest())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+  }
+
+  private static Stream<TestRequest> invalidRequestGenerator() {
+    return Stream.of(
+      TestRequestMother.withNullInnerObject(),
+      TestRequestMother.withInnerObject(InnerObjectMother.withEmptyString()),
+      TestRequestMother.withInnerObject(InnerObjectMother.withNullString()),
+      TestRequestMother.withInnerObject(InnerObjectMother.withNullInteger()),
+      TestRequestMother.withInnerObject(InnerObjectMother.withNegativeInteger()),
+      TestRequestMother.withInnerObject(InnerObjectMother.withNullDouble()),
+      TestRequestMother.withInnerObject(InnerObjectMother.withPositiveDouble()),
+      TestRequestMother.withNullArray(),
+      TestRequestMother.withEmptyArray(),
+      TestRequestMother.withEmptyString(),
+      TestRequestMother.withNullString(),
+      TestRequestMother.withNullInteger(),
+      TestRequestMother.withNegativeInteger(),
+      TestRequestMother.withNullDouble(),
+      TestRequestMother.withNegativeDouble()
+    );
   }
 }
