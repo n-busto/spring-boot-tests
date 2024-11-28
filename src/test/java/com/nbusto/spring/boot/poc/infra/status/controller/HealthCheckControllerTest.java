@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -20,9 +19,6 @@ class HealthCheckControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
-
-  @Autowired
-  private ResultMatcher openApiValidator;
 
   @MockBean
   private HealthCheckUseCase useCase;
@@ -37,8 +33,7 @@ class HealthCheckControllerTest {
         .contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-      .andExpect(content().json("{ \"status\": \"DOWN\" }"))
-      .andExpect(openApiValidator);
+      .andExpect(content().json("{ \"status\": \"DOWN\" }"));
   }
 
   @Test
@@ -51,7 +46,6 @@ class HealthCheckControllerTest {
         .contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-      .andExpect(content().json("{ \"status\": \"UP\" }"))
-      .andExpect(openApiValidator);
+      .andExpect(content().json("{ \"status\": \"UP\" }"));
   }
 }

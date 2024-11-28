@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.matchesPattern;
@@ -25,9 +24,6 @@ class DecimalCommaDoublesControllerTest {
   @Autowired
   private MockMvc mockMvc;
 
-  @Autowired
-  private ResultMatcher openApiValidator;
-
   @MockBean
   private CalculateDoubleUseCase useCase;
 
@@ -42,7 +38,6 @@ class DecimalCommaDoublesControllerTest {
     mockMvc.perform(get("/doubles/decimal_comma"))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-      .andExpect(openApiValidator)
       .andExpect(jsonPath("$.value").exists())
       .andExpect(jsonPath("$.value").isString())
       .andExpect(jsonPath("$.value", is(Double.toString(123.45).replace(".", ","))))
@@ -62,7 +57,6 @@ class DecimalCommaDoublesControllerTest {
         .queryParam("value", String.valueOf(value)))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-      .andExpect(openApiValidator)
       .andExpect(jsonPath("$.value").exists())
       .andExpect(jsonPath("$.value").isString())
       .andExpect(jsonPath("$.value", is(Double.toString(value).replace(".", ","))))

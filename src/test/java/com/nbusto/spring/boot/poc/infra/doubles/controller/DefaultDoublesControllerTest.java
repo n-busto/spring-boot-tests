@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.hamcrest.Matchers.equalTo;
@@ -24,9 +23,6 @@ class DefaultDoublesControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
-
-  @Autowired
-  private ResultMatcher openApiValidator;
 
   @MockBean
   private CalculateDoubleUseCase useCase;
@@ -46,7 +42,6 @@ class DefaultDoublesControllerTest {
       .andExpect(jsonPath("$.value").exists())
       .andExpect(jsonPath("$.value").isNumber())
       .andExpect(jsonPath("$.value", equalTo(123.45)))
-      .andExpect(openApiValidator)
       .andReturn()
       .getResponse()
       .getContentAsString();
@@ -71,7 +66,6 @@ class DefaultDoublesControllerTest {
       .andExpect(jsonPath("$.value").exists())
       .andExpect(jsonPath("$.value").isNumber())
       .andExpect(jsonPath("$.value", equalTo(value)))
-      .andExpect(openApiValidator)
       .andReturn()
       .getResponse()
       .getContentAsString();

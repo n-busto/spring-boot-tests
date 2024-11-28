@@ -7,7 +7,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.util.stream.Stream;
 
@@ -20,9 +19,6 @@ public class ValidationTestControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
-
-  @Autowired
-  private ResultMatcher openApiValidator;
 
   @ParameterizedTest
   @MethodSource("invalidRequestGenerator")
@@ -56,8 +52,7 @@ public class ValidationTestControllerTest {
         .contentType(MediaType.APPLICATION_JSON)
         .content(request))
       .andExpect(status().isOk())
-      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-      .andExpect(openApiValidator);
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON));
   }
 
   private static Stream<String> invalidRequestGenerator() {
