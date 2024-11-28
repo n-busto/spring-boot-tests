@@ -10,7 +10,7 @@ import java.util.List;
 public record TestRequest(
   @NotNull
   @Valid
-  InnerClass innerClass,
+  InnerObject innerObject,
   @NotEmpty
   List<String> array,
   @NotEmpty

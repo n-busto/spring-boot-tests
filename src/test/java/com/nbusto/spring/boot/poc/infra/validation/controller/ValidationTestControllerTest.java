@@ -3,7 +3,7 @@ package com.nbusto.spring.boot.poc.infra.validation.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nbusto.spring.boot.poc.infra.annotations.ControllerTest;
 import com.nbusto.spring.boot.poc.infra.controller.BaseControllerTest;
-import com.nbusto.spring.boot.poc.infra.request.InnerClassMother;
+import com.nbusto.spring.boot.poc.infra.request.InnerObjectMother;
 import com.nbusto.spring.boot.poc.infra.request.TestRequestMother;
 import com.nbusto.spring.boot.poc.infra.validation.request.TestRequest;
 import org.apache.http.HttpStatus;
@@ -23,15 +23,24 @@ public class ValidationTestControllerTest extends BaseControllerTest {
   @Autowired
   private ObjectMapper mapper;
 
-  @Test
-  void when_request_is_valid_expect_OK() throws Exception {
-    // Given
-    final var postRequest = post("/validation")
-      .contentType(MediaType.APPLICATION_JSON)
-      .content(mapper.writeValueAsBytes(TestRequestMother.withInnerObject(InnerClassMother.random())));
-
-    // Then
-    performAction(postRequest, HttpStatus.SC_OK);
+  private static Stream<TestRequest> invalidRequestGenerator() {
+    return Stream.of(
+      TestRequestMother.withNullInnerObject(),
+      TestRequestMother.withInnerObject(InnerObjectMother.withEmptyString()),
+      TestRequestMother.withInnerObject(InnerObjectMother.withNullString()),
+      TestRequestMother.withInnerObject(InnerObjectMother.withNullInteger()),
+      TestRequestMother.withInnerObject(InnerObjectMother.withNegativeInteger()),
+      TestRequestMother.withInnerObject(InnerObjectMother.withNullDouble()),
+      TestRequestMother.withInnerObject(InnerObjectMother.withPositiveDouble()),
+      TestRequestMother.withNullArray(),
+      TestRequestMother.withEmptyArray(),
+      TestRequestMother.withEmptyString(),
+      TestRequestMother.withNullString(),
+      TestRequestMother.withNullInteger(),
+      TestRequestMother.withNegativeInteger(),
+      TestRequestMother.withNullDouble(),
+      TestRequestMother.withNegativeDouble()
+    );
   }
 
   @ParameterizedTest
@@ -46,24 +55,15 @@ public class ValidationTestControllerTest extends BaseControllerTest {
     performAction(postRequest, HttpStatus.SC_BAD_REQUEST);
   }
 
-  private static Stream<TestRequest> invalidRequestGenerator() {
-    return Stream.of(
-      TestRequestMother.withNullInnerObject(),
-      TestRequestMother.withInnerObject(InnerClassMother.withEmptyString()),
-      TestRequestMother.withInnerObject(InnerClassMother.withNullString()),
-      TestRequestMother.withInnerObject(InnerClassMother.withNullInteger()),
-      TestRequestMother.withInnerObject(InnerClassMother.withNegativeInteger()),
-      TestRequestMother.withInnerObject(InnerClassMother.withNullDouble()),
-      TestRequestMother.withInnerObject(InnerClassMother.withPositiveDouble()),
-      TestRequestMother.withNullArray(),
-      TestRequestMother.withEmptyArray(),
-      TestRequestMother.withEmptyString(),
-      TestRequestMother.withNullString(),
-      TestRequestMother.withNullInteger(),
-      TestRequestMother.withNegativeInteger(),
-      TestRequestMother.withNullDouble(),
-      TestRequestMother.withNegativeDouble()
-    );
+  @Test
+  void when_request_is_valid_expect_OK() throws Exception {
+    // Given
+    final var postRequest = post("/validation")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(mapper.writeValueAsBytes(TestRequestMother.withInnerObject(InnerObjectMother.random())));
+
+    // Then
+    performAction(postRequest, HttpStatus.SC_OK);
   }
 
   @Test

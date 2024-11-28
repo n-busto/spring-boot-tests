@@ -1,6 +1,6 @@
 package com.nbusto.spring.boot.poc.infra.request;
 
-import com.nbusto.spring.boot.poc.infra.validation.request.InnerClass;
+import com.nbusto.spring.boot.poc.infra.validation.request.InnerObject;
 import com.nbusto.spring.boot.poc.infra.validation.request.TestRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -15,15 +15,15 @@ public class TestRequestMother {
     return of(TestRequest.class)
       .generate(field(TestRequest::integer), it -> it.ints().min(0))
       .generate(field(TestRequest::doubleValue), it -> it.doubles().min(0.0))
-      .ignore(field(TestRequest::innerClass))
+      .ignore(field(TestRequest::innerObject))
       .create();
   }
 
-  public static TestRequest withInnerObject(InnerClass innerClass) {
+  public static TestRequest withInnerObject(InnerObject innerObject) {
     return of(TestRequest.class)
       .generate(field(TestRequest::integer), it -> it.ints().min(0))
       .generate(field(TestRequest::doubleValue), it -> it.doubles().min(0.0))
-      .set(field(TestRequest::innerClass), innerClass)
+      .set(field(TestRequest::innerObject), innerObject)
       .create();
   }
 
