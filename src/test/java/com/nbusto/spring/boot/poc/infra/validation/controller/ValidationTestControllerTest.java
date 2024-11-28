@@ -1,10 +1,6 @@
 package com.nbusto.spring.boot.poc.infra.validation.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nbusto.spring.boot.poc.infra.annotations.ControllerTest;
-import com.nbusto.spring.boot.poc.infra.request.InnerObjectMother;
-import com.nbusto.spring.boot.poc.infra.request.TestRequestMother;
-import com.nbusto.spring.boot.poc.infra.validation.request.TestRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -28,16 +24,13 @@ public class ValidationTestControllerTest {
   @Autowired
   private ResultMatcher openApiValidator;
 
-  @Autowired
-  private ObjectMapper mapper;
-
   @ParameterizedTest
   @MethodSource("invalidRequestGenerator")
-  void when_request_is_not_valid_expect_badRequest(TestRequest request) throws Exception {
+  void when_request_is_not_valid_expect_badRequest(String request) throws Exception {
     // Expect
     mockMvc.perform(post("/validation")
         .contentType(MediaType.APPLICATION_JSON)
-        .content(mapper.writeValueAsBytes(request)))
+        .content(request))
       .andExpect(status().isBadRequest())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON));
   }
@@ -45,7 +38,18 @@ public class ValidationTestControllerTest {
   @Test
   void when_request_is_valid_expect_OK() throws Exception {
     // Given
-    final var request = mapper.writeValueAsBytes(TestRequestMother.withInnerObject(InnerObjectMother.random()));
+    final var request = """
+      {
+        "innerObject": {
+          "string":"EXWUDSIHH",
+          "integer":6606,
+          "doubleValue":-1.0957806279504516E-5
+        },
+        "array":["NKRYDM","VOQD","JLIU"],
+        "string":"MWNELCJ",
+        "integer":9063,
+        "doubleValue":8743.242551784579}
+      """;
 
     // Then
     mockMvc.perform(post("/validation")
@@ -56,36 +60,173 @@ public class ValidationTestControllerTest {
       .andExpect(openApiValidator);
   }
 
-  @Test
-  void when_request_is_is_empty_expect_badRequest() throws Exception {
-    // Given
-    final var request = "{}";
-
-    // Expect
-    mockMvc.perform(post("/validation")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(request))
-      .andExpect(status().isBadRequest())
-      .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-  }
-
-  private static Stream<TestRequest> invalidRequestGenerator() {
+  private static Stream<String> invalidRequestGenerator() {
     return Stream.of(
-      TestRequestMother.withNullInnerObject(),
-      TestRequestMother.withInnerObject(InnerObjectMother.withEmptyString()),
-      TestRequestMother.withInnerObject(InnerObjectMother.withNullString()),
-      TestRequestMother.withInnerObject(InnerObjectMother.withNullInteger()),
-      TestRequestMother.withInnerObject(InnerObjectMother.withNegativeInteger()),
-      TestRequestMother.withInnerObject(InnerObjectMother.withNullDouble()),
-      TestRequestMother.withInnerObject(InnerObjectMother.withPositiveDouble()),
-      TestRequestMother.withNullArray(),
-      TestRequestMother.withEmptyArray(),
-      TestRequestMother.withEmptyString(),
-      TestRequestMother.withNullString(),
-      TestRequestMother.withNullInteger(),
-      TestRequestMother.withNegativeInteger(),
-      TestRequestMother.withNullDouble(),
-      TestRequestMother.withNegativeDouble()
+      "{}",
+      """
+        {
+          "innerObject": null,
+          "array":["NKRYDM","VOQD","JLIU"],
+          "string":"MWNELCJ",
+          "integer":9063,
+          "doubleValue":8743.242551784579}
+        """,
+      """
+        {
+          "innerObject": {
+            "string":"",
+            "integer":6606,
+            "doubleValue":-1.0957806279504516E-5
+          },
+          "array":["NKRYDM","VOQD","JLIU"],
+          "string":"MWNELCJ",
+          "integer":9063,
+          "doubleValue":8743.242551784579}
+        """, """
+        {
+          "innerObject": {
+            "string":null,
+            "integer":6606,
+            "doubleValue":-1.0957806279504516E-5
+          },
+          "array":["NKRYDM","VOQD","JLIU"],
+          "string":"MWNELCJ",
+          "integer":9063,
+          "doubleValue":8743.242551784579}
+        """, """
+        {
+          "innerObject": {
+            "string":"EXWUDSIHH",
+            "integer":null,
+            "doubleValue":-1.0957806279504516E-5
+          },
+          "array":["NKRYDM","VOQD","JLIU"],
+          "string":"MWNELCJ",
+          "integer":9063,
+          "doubleValue":8743.242551784579}
+        """, """
+        {
+          "innerObject": {
+            "string":"EXWUDSIHH",
+            "integer":6606,
+            "doubleValue":-1.0957806279504516E-5
+          },
+          "array":["NKRYDM","VOQD","JLIU"],
+          "string":"MWNELCJ",
+          "integer":-9063,
+          "doubleValue":8743.242551784579}
+        """, """
+        {
+          "innerObject": {
+            "string":"EXWUDSIHH",
+            "integer":6606,
+            "doubleValue":null
+          },
+          "array":["NKRYDM","VOQD","JLIU"],
+          "string":"MWNELCJ",
+          "integer":9063,
+          "doubleValue":8743.242551784579}
+        """, """
+        {
+          "innerObject": {
+            "string":"EXWUDSIHH",
+            "integer":6606,
+            "doubleValue":1.0957806279504516E-5
+          },
+          "array":["NKRYDM","VOQD","JLIU"],
+          "string":"MWNELCJ",
+          "integer":9063,
+          "doubleValue":8743.242551784579}
+        """,
+      """
+        {
+          "innerObject": {
+            "string":"EXWUDSIHH",
+            "integer":6606,
+            "doubleValue":-1.0957806279504516E-5
+          },
+          "array":null,
+          "string":"MWNELCJ",
+          "integer":9063,
+          "doubleValue":8743.242551784579}
+        """, """
+        {
+          "innerObject": {
+            "string":"EXWUDSIHH",
+            "integer":6606,
+            "doubleValue":-1.0957806279504516E-5
+          },
+          "array":[],
+          "string":"MWNELCJ",
+          "integer":9063,
+          "doubleValue":8743.242551784579}
+        """, """
+        {
+          "innerObject": {
+            "string":"EXWUDSIHH",
+            "integer":6606,
+            "doubleValue":-1.0957806279504516E-5
+          },
+          "array":["NKRYDM","VOQD","JLIU"],
+          "string":"",
+          "integer":9063,
+          "doubleValue":8743.242551784579}
+        """, """
+        {
+          "innerObject": {
+            "string":"EXWUDSIHH",
+            "integer":6606,
+            "doubleValue":-1.0957806279504516E-5
+          },
+          "array":["NKRYDM","VOQD","JLIU"],
+          "string":null,
+          "integer":9063,
+          "doubleValue":8743.242551784579}
+        """, """
+        {
+          "innerObject": {
+            "string":"EXWUDSIHH",
+            "integer":6606,
+            "doubleValue":-1.0957806279504516E-5
+          },
+          "array":["NKRYDM","VOQD","JLIU"],
+          "string":"MWNELCJ",
+          "integer":null,
+          "doubleValue":8743.242551784579}
+        """, """
+        {
+          "innerObject": {
+            "string":"EXWUDSIHH",
+            "integer":-6606,
+            "doubleValue":-1.0957806279504516E-5
+          },
+          "array":["NKRYDM","VOQD","JLIU"],
+          "string":"MWNELCJ",
+          "integer":9063,
+          "doubleValue":8743.242551784579}
+        """, """
+        {
+          "innerObject": {
+            "string":"EXWUDSIHH",
+            "integer":6606,
+            "doubleValue":-1.0957806279504516E-5
+          },
+          "array":["NKRYDM","VOQD","JLIU"],
+          "string":"MWNELCJ",
+          "integer":9063,
+          "doubleValue":null}
+        """, """
+        {
+          "innerObject": {
+            "string":"EXWUDSIHH",
+            "integer":6606,
+            "doubleValue":-1.0957806279504516E-5
+          },
+          "array":["NKRYDM","VOQD","JLIU"],
+          "string":"MWNELCJ",
+          "integer":9063,
+          "doubleValue":-8743.242551784579}
+        """
     );
   }
 }
