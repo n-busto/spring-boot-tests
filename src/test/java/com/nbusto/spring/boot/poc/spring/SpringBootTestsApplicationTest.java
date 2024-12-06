@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 
-@SpringBootTest
+@SpringBootTest(useMainMethod = SpringBootTest.UseMainMethod.ALWAYS)
 class SpringBootTestsApplicationTest {
 
   @Autowired
@@ -16,5 +16,4 @@ class SpringBootTestsApplicationTest {
   void given_context_then_is_not_null() {
     Assertions.assertThat(context).isNotNull();
   }
-
 }
