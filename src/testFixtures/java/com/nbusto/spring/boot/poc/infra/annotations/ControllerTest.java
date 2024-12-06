@@ -1,9 +1,7 @@
 package com.nbusto.spring.boot.poc.infra.annotations;
 
-import com.nbusto.spring.boot.poc.infra.controller.ControllerTestConfig;
 import com.nbusto.spring.boot.poc.spring.SpringBootTestsApplication;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -17,7 +15,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @WebMvcTest
-@Import(ControllerTestConfig.class)
 @ContextConfiguration(classes = SpringBootTestsApplication.class)
 public @interface ControllerTest {
   @AliasFor(attribute = "controllers", annotation = WebMvcTest.class)
