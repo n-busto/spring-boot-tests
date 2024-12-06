@@ -53,6 +53,7 @@ dependencies {
 
     // Karate
     testImplementation(libs.karate)
+    testFixturesImplementation(libs.karate)
 
     // Swagger
     testFixturesImplementation(libs.swagger.validator.mockmvc)
