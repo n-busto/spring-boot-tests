@@ -56,7 +56,6 @@ dependencies {
     testFixturesImplementation(libs.karate)
 
     // Swagger
-    testFixturesImplementation(libs.swagger.validator.mockmvc)
     testFixturesImplementation(libs.swagger.validator.core)
 
     // Instancio
