@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
 
+// FIXME: we don't validate querying by non existing parameters
 public class OpenApiValidatorHook implements RuntimeHook {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(OpenApiValidatorHook.class);
