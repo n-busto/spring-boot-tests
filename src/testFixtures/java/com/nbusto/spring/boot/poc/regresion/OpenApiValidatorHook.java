@@ -8,16 +8,17 @@ import com.intuit.karate.RuntimeHook;
 import com.intuit.karate.core.ScenarioRuntime;
 import com.intuit.karate.http.HttpRequest;
 import com.intuit.karate.http.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ResourceLoader;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class OpenApiValidatorHook implements RuntimeHook {
 
-  //TODO improve validation
+  private static final Logger LOGGER = LoggerFactory.getLogger(OpenApiValidatorHook.class);
 
   private final OpenApiInteractionValidator validator;
 
@@ -31,56 +32,31 @@ public class OpenApiValidatorHook implements RuntimeHook {
 
   @Override
   public void afterHttpCall(HttpRequest request, Response response, ScenarioRuntime sr) {
-    final var path = cleanUrl(request.getUrl());
+    final var report = validator.validate(
+      mapRequest(request.toRequest()),
+      mapResponse(response));
 
-    validate(
-      calculateRequest(path, request.getMethod(), request.getBodyAsString(), extractQueryParams(request.getUrl())),
-      calculateResponse(response.getBodyAsString(), response.getStatus()));
-  }
-
-  private Map<String, String> extractQueryParams(String url) {
-    final var queryParams = new HashMap<String, String>();
-    if (url.contains("?")) {
-      final var queryParts = url.substring(url.indexOf("?") + 1).split("&");
-      for (String queryPart : queryParts) {
-        final var keyValue = queryPart.split("=");
-        queryParams.put(keyValue[0], keyValue.length > 1 ? keyValue[1] : "");
-      }
+    if (report.hasErrors()) {
+      throw new RuntimeException("OpenAPI response validation failed");
     }
-    return queryParams;
+    LOGGER.info("Report resume: {}", report.getMessages());
   }
 
-  private com.atlassian.oai.validator.model.Response calculateResponse(String responseBody, int statusCode) {
-    return new SimpleResponse.Builder(statusCode)
-      .withBody(responseBody)
+  private com.atlassian.oai.validator.model.Response mapResponse(Response response) {
+    return new SimpleResponse.Builder(response.getStatus())
+      .withBody(response.getBody())
       .build();
   }
 
-  private void validate(Request request, com.atlassian.oai.validator.model.Response response) {
-    final var report = validator.validate(request, response);
-    if (report.hasErrors()) {
-      throw new RuntimeException("OpenAPI response validation failed: " + report);
-    }
-  }
+  private Request mapRequest(com.intuit.karate.http.Request request) {
+    final var response = new SimpleRequest.Builder(
+      request.getMethod(), request.getPath())
+      .withBody(request.getBody());
 
-  private Request calculateRequest(
-    String path,
-    String method,
-    String requestBody,
-    Map<String, String> queryParams) {
-    final var request = new SimpleRequest.Builder(method, path)
-      .withBody(requestBody);
+    request.getParams().forEach(response::withQueryParam);
+    request.getHeaders()
+      .forEach((key, values) -> response.withQueryParam(key, List.copyOf(values)));
 
-    queryParams.forEach(request::withQueryParam);
-
-    return request.build();
-  }
-
-  private String cleanUrl(String url) {
-    var cleanUrl = url.substring(url.indexOf("/", 10));
-    if (cleanUrl.contains("?")) {
-      cleanUrl = cleanUrl.substring(0, cleanUrl.indexOf("?"));
-    }
-    return cleanUrl;
+    return response.build();
   }
 }
