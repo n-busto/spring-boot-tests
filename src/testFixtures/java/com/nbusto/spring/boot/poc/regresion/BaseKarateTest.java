@@ -1,14 +1,16 @@
 package com.nbusto.spring.boot.poc.regresion;
 
+import com.intuit.karate.RuntimeHook;
 import com.intuit.karate.junit5.Karate;
+import com.nbusto.spring.boot.poc.regresion.config.KarateOpenApiValidatorConfig;
 import com.nbusto.spring.boot.poc.spring.SpringBootTestsApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
-import org.springframework.core.io.ResourceLoader;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 
-import java.io.IOException;
+import java.util.List;
 
 @SpringBootTest(
   webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
@@ -19,19 +21,20 @@ import java.io.IOException;
     "logging.level.root=error"
   }
 )
+@Import(KarateOpenApiValidatorConfig.class)
 public abstract class BaseKarateTest {
 
   @Autowired
   private ServletWebServerApplicationContext webContext;
 
   @Autowired
-  private ResourceLoader resourceLoader;
+  private List<RuntimeHook> hooks;
 
   @Karate.Test
-  Karate testFeature() throws IOException {
+  Karate testFeature() {
     return Karate.run("classpath:karate/scenarios/" + getFeatureName())
       .failWhenNoScenariosFound(true)
-      .hook(new OpenApiValidatorHook(resourceLoader))
+      .hooks(hooks)
       .systemProperty("karate.server.port", webContext.getWebServer().getPort() + "");
   }
 

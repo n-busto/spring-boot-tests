@@ -1,4 +1,4 @@
-package com.nbusto.spring.boot.poc.regresion;
+package com.nbusto.spring.boot.poc.regresion.utils;
 
 import com.atlassian.oai.validator.OpenApiInteractionValidator;
 import com.atlassian.oai.validator.model.Request;
@@ -8,27 +8,16 @@ import com.intuit.karate.RuntimeHook;
 import com.intuit.karate.core.ScenarioRuntime;
 import com.intuit.karate.http.HttpRequest;
 import com.intuit.karate.http.Response;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ResourceLoader;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.List;
 
 // FIXME: we don't validate querying by non existing parameters
 public class OpenApiValidatorHook implements RuntimeHook {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(OpenApiValidatorHook.class);
-
   private final OpenApiInteractionValidator validator;
 
-  public OpenApiValidatorHook(ResourceLoader resourceLoader) throws IOException {
-    this.validator = OpenApiInteractionValidator
-      .createFor(resourceLoader
-        .getResource("classpath:static/test-contract.yaml")
-        .getContentAsString(Charset.defaultCharset()))
-      .build();
+  public OpenApiValidatorHook(OpenApiInteractionValidator validator) {
+    this.validator = validator;
   }
 
   @Override
@@ -38,9 +27,8 @@ public class OpenApiValidatorHook implements RuntimeHook {
       mapResponse(response));
 
     if (report.hasErrors()) {
-      throw new RuntimeException("OpenAPI response validation failed");
+      throw new RuntimeException("OpenAPI response validation failed: " + report.getMessages());
     }
-    LOGGER.info("Report resume: {}", report.getMessages());
   }
 
   private com.atlassian.oai.validator.model.Response mapResponse(Response response) {
