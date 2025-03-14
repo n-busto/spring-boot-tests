@@ -81,6 +81,27 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/acceptAny"
+  /injection:
+    get:
+      summary: return a list of beans data
+      description: ''
+      operationId: bean-list
+      tags:
+        - injection
+      responses:
+        "200":
+          description: "Returns the bean data"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  numberOfBeans:
+                    type: integer
+                  beanNames:
+                    type: array
+                    items:
+                      type: string
 components:
   parameters:
     doubleParam:
