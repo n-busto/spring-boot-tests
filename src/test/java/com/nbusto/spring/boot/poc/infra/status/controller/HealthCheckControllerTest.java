@@ -37,7 +37,7 @@ class HealthCheckControllerTest {
   }
 
   @Test
-  void given_status_up_when_requested_return_status_down() throws Exception {
+  void given_status_up_when_requested_return_status_up() throws Exception {
     // Given
     BDDMockito.given(useCase.getHealth()).willReturn(new Health("UP"));
 
