@@ -1,0 +1,8 @@
+spring:
+  main:
+    lazy-initialization: true
+    banner-mode: off
+    log-startup-info: false
+  docker:
+    compose:
+      enabled: false

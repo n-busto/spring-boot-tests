@@ -16,6 +16,9 @@ java {
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://packages.confluent.io/maven/")
+    }
 }
 
 dependencies {
@@ -27,6 +30,12 @@ dependencies {
     implementation(libs.springboot.actuator)
     implementation(libs.springboot.web)
     implementation(libs.springboot.validator)
+    implementation(libs.spring.boot.docker.compose)
+
+    // Kafka
+    implementation(libs.spring.cloud.stream.kafka)
+    implementation(libs.spring.cloud.stream.schema)
+    implementation(libs.avro.serializer)
 
     // Lombok
     compileOnly(libs.lombok)
@@ -60,6 +69,12 @@ dependencies {
 
     // Instancio
     testFixturesImplementation(libs.instancio)
+}
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2024.0.1")
+    }
 }
 
 tasks.withType<Test> {

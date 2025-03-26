@@ -1,0 +1,6 @@
+spring:
+  docker:
+    compose:
+      file: docker-compose.yml
+      enabled: true
+      lifecycle-management: start_and_stop
