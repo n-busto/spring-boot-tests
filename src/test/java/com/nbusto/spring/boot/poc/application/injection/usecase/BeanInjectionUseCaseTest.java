@@ -2,7 +2,7 @@ package com.nbusto.spring.boot.poc.application.injection.usecase;
 
 import com.nbusto.spring.boot.poc.application.ApplicationTest;
 import com.nbusto.spring.boot.poc.application.injection.port.BeanPort;
-import com.nbusto.spring.boot.poc.infra.injection.StringListMother;
+import com.nbusto.spring.boot.poc.application.injection.StringListMother;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;

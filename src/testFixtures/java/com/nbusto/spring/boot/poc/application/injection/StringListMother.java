@@ -1,4 +1,4 @@
-package com.nbusto.spring.boot.poc.infra.injection;
+package com.nbusto.spring.boot.poc.application.injection;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

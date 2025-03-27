@@ -2,7 +2,7 @@ package com.nbusto.spring.boot.poc.infra.injection.controller;
 
 import com.nbusto.spring.boot.poc.application.injection.usecase.BeanInjectionUseCase;
 import com.nbusto.spring.boot.poc.infra.annotations.ControllerTest;
-import com.nbusto.spring.boot.poc.infra.injection.StringListMother;
+import com.nbusto.spring.boot.poc.application.injection.StringListMother;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
