@@ -1,2 +1,2 @@
-### Healthcheck
-GET {{baseUrl}}/injection
+### Injection
+GET {{baseUrl}}/injection/bean-list

@@ -81,7 +81,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/acceptAny"
-  /injection:
+  /injection/bean-list:
     get:
       summary: return a list of beans data
       description: ''

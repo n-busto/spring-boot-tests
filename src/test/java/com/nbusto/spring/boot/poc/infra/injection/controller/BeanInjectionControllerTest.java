@@ -37,7 +37,7 @@ class BeanInjectionControllerTest {
       .willReturn(randomBeanNameList);
 
     // Expect
-    mockMvc.perform(get("/injection"))
+    mockMvc.perform(get("/injection/bean-list"))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.numberOfBeans").exists())
@@ -56,7 +56,7 @@ class BeanInjectionControllerTest {
       .willReturn(List.of());
 
     // Expect
-    mockMvc.perform(get("/injection"))
+    mockMvc.perform(get("/injection/bean-list"))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.numberOfBeans").exists())

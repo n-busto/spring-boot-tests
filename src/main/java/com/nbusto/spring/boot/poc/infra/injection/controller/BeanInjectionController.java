@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/injection")
+@RequestMapping("/injection/bean-list")
 @RequiredArgsConstructor
 public class BeanInjectionController {
 
