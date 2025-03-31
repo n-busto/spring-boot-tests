@@ -4,3 +4,7 @@ spring:
       file: docker-compose.yml
       enabled: true
       lifecycle-management: start_and_stop
+  cloud:
+    stream:
+      schema-registry-client:
+        endpoint: https://localhost:8990
