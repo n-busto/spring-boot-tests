@@ -39,3 +39,5 @@ out/
 ### Configuration
 application-*.yml
 !application-dev.yml
+
+/avro-schemas/target/**
