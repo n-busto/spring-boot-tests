@@ -77,6 +77,16 @@ dependencyManagement {
     }
 }
 
+val generateAvro by tasks.registering(Exec::class) {
+    group = LifecycleBasePlugin.BUILD_GROUP
+    workingDir = file("avro-schemas")
+    commandLine("./mvnw", "generate-sources")
+}
+
+tasks.named("build") {
+    dependsOn(generateAvro)
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
 }
