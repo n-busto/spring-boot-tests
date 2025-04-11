@@ -1,0 +1,18 @@
+{
+  "namespace": "com.nbusto.spring.boot.poc.infra.injection.dto",
+  "type": "record",
+  "name": "DeleteOrder",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "delete_time",
+      "type": {
+        "type": "long",
+        "logicalType": "local-timestamp-millis"
+      }
+    }
+  ]
+}
