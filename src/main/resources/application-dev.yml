@@ -3,7 +3,7 @@ spring:
     compose:
       file: docker-compose.yml
       enabled: true
-      lifecycle-management: start_and_stop
+      lifecycle-management: start_only
   cloud:
     stream:
       schema-registry-client:
