@@ -6,7 +6,3 @@ spring:
   docker:
     compose:
       enabled: false
-  cloud:
-    stream:
-      schema-registry-client:
-        endpoint: ${KAFKA_SCHEMA_REGISTRY_URL}
