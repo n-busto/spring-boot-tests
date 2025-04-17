@@ -3,10 +3,6 @@
 springboot-core-version = "3.3.4"
 springboot-deps-version = "1.1.6"
 
-# Kafka
-kafka-stream-schema-version = "2.2.1.RELEASE"
-avro-serializer-version = "7.9.0"
-
 # Utility
 lombok-version = "1.18.34"
 
@@ -29,11 +25,6 @@ spring-boot-docker-compose = { group = "org.springframework.boot", name = "sprin
 # Utility
 lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok-version" }
 instancio = { group = "org.instancio", name = "instancio-junit", version.ref = "instancio-version" }
-
-# Kafka
-spring-cloud-stream-kafka = { group = "org.springframework.cloud", name = "spring-cloud-stream-binder-kafka" }
-spring-cloud-stream-schema = { group = "org.springframework.cloud", name = "spring-cloud-stream-schema", version.ref = "kafka-stream-schema-version" }
-avro-serializer = { group = "io.confluent", name = "kafka-avro-serializer", version.ref = "avro-serializer-version" }
 
 # Test
 junit-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }

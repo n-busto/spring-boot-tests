@@ -32,11 +32,6 @@ dependencies {
     implementation(libs.springboot.validator)
     implementation(libs.spring.boot.docker.compose)
 
-    // Kafka
-    implementation(libs.spring.cloud.stream.kafka)
-    implementation(libs.spring.cloud.stream.schema)
-    implementation(libs.avro.serializer)
-
     // Lombok
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
