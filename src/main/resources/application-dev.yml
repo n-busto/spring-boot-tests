@@ -4,3 +4,11 @@ spring:
       file: docker-compose.yml
       enabled: true
       lifecycle-management: start_only
+management:
+  endpoint:
+    beans:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
