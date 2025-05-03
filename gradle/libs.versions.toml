@@ -22,6 +22,10 @@ springboot-test = { group = "org.springframework.boot", name = "spring-boot-star
 springboot-validator = { group = "org.springframework.boot", name = "spring-boot-starter-validation" }
 spring-boot-docker-compose = { group = "org.springframework.boot", name = "spring-boot-docker-compose" }
 
+# Kafka
+spring-cloud-stream-binder-kafka = { group = "org.springframework.cloud", name = "spring-cloud-stream-binder-kafka" }
+spring-cloud-stream-schema = { group = "org.springframework.cloud", name = "spring-cloud-stream-schema" }
+
 # Utility
 lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok-version" }
 instancio = { group = "org.instancio", name = "instancio-junit", version.ref = "instancio-version" }
