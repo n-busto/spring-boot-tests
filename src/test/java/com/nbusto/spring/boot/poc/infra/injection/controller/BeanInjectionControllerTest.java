@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ControllerTest(controllers = BeanInjectionController.class)
 class BeanInjectionControllerTest {
 
+  public static final String ENDPOINT_URI = "/injection/bean-list";
   @Autowired
   private MockMvc mockMvc;
 
@@ -37,7 +38,7 @@ class BeanInjectionControllerTest {
       .willReturn(randomBeanNameList);
 
     // Expect
-    mockMvc.perform(get("/injection/bean-list"))
+    mockMvc.perform(get(ENDPOINT_URI))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.numberOfBeans").exists())
@@ -56,7 +57,7 @@ class BeanInjectionControllerTest {
       .willReturn(List.of());
 
     // Expect
-    mockMvc.perform(get("/injection/bean-list"))
+    mockMvc.perform(get(ENDPOINT_URI))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.numberOfBeans").exists())

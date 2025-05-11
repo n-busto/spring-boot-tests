@@ -15,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ControllerTest(controllers = ValidationTestController.class)
 public class ValidationTestControllerTest {
 
+  public static final String ENDPOINT_URI = "/validation";
   @Autowired
   private MockMvc mockMvc;
 
@@ -22,7 +23,7 @@ public class ValidationTestControllerTest {
   @FileSource("requests/validation/wrong")
   void when_request_is_not_valid_expect_badRequest(String request) throws Exception {
     // Expect
-    mockMvc.perform(post("/validation")
+    mockMvc.perform(post(ENDPOINT_URI)
         .contentType(MediaType.APPLICATION_JSON)
         .content(request))
       .andExpect(status().isBadRequest())
@@ -46,7 +47,7 @@ public class ValidationTestControllerTest {
       """;
 
     // Then
-    mockMvc.perform(post("/validation")
+    mockMvc.perform(post(ENDPOINT_URI)
         .contentType(MediaType.APPLICATION_JSON)
         .content(request))
       .andExpect(status().isOk())

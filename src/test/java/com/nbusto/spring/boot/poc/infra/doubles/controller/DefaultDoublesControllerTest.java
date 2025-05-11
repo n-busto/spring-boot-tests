@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ControllerTest(controllers = DefaultDoublesController.class)
 class DefaultDoublesControllerTest {
 
+  public static final String ENDPOINT_URI = "/doubles/default";
   @Autowired
   private MockMvc mockMvc;
 
@@ -35,7 +36,7 @@ class DefaultDoublesControllerTest {
       .willReturn(123.45);
 
     // Expect
-    final var result = mockMvc.perform(get("/doubles/default")
+    final var result = mockMvc.perform(get(ENDPOINT_URI)
         .contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -58,7 +59,7 @@ class DefaultDoublesControllerTest {
       .willReturn(value);
 
     // Expect
-    final var result = mockMvc.perform(get("/doubles/default")
+    final var result = mockMvc.perform(get(ENDPOINT_URI)
         .queryParam("value", String.valueOf(value))
         .contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk())

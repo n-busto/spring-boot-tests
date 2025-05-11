@@ -21,6 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ControllerTest(controllers = DecimalCommaDoublesController.class)
 class DecimalCommaDoublesControllerTest {
 
+  public static final String ENDPOINT_URI = "/doubles/decimal_comma";
+  
   @Autowired
   private MockMvc mockMvc;
 
@@ -35,7 +37,7 @@ class DecimalCommaDoublesControllerTest {
       .willReturn(123.45);
 
     // Expect
-    mockMvc.perform(get("/doubles/decimal_comma"))
+    mockMvc.perform(get(ENDPOINT_URI))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.value").exists())
@@ -53,7 +55,7 @@ class DecimalCommaDoublesControllerTest {
       .willReturn(value);
 
     // Expect
-    mockMvc.perform(get("/doubles/decimal_comma")
+    mockMvc.perform(get(ENDPOINT_URI)
         .queryParam("value", String.valueOf(value)))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))

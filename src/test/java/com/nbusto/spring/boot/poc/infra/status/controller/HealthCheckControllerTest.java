@@ -17,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ControllerTest(controllers = HealthCheckController.class)
 class HealthCheckControllerTest {
 
+  public static final String ENDPOINT_URI = "/healthcheck";
   @Autowired
   private MockMvc mockMvc;
 
@@ -29,7 +30,7 @@ class HealthCheckControllerTest {
     BDDMockito.given(useCase.getHealth()).willReturn(new Health("DOWN"));
 
     // Expect
-    mockMvc.perform(get("/healthcheck")
+    mockMvc.perform(get(ENDPOINT_URI)
         .contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -42,7 +43,7 @@ class HealthCheckControllerTest {
     BDDMockito.given(useCase.getHealth()).willReturn(new Health("UP"));
 
     // Expect
-    mockMvc.perform(get("/healthcheck")
+    mockMvc.perform(get(ENDPOINT_URI)
         .contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
