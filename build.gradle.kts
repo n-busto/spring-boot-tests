@@ -36,6 +36,7 @@ dependencies {
     implementation(libs.spring.cloud.stream.binder.kafka)
     implementation(libs.spring.cloud.stream.schema)
     implementation(libs.apache.avro)
+    implementation(libs.kafka.avro.serializer)
 
     // Lombok
     compileOnly(libs.lombok)
@@ -54,6 +55,8 @@ dependencies {
 
     // Kafka
     testImplementation(libs.spring.kafka.test)
+    testImplementation(libs.kafka.testcontainer)
+    testImplementation(libs.testcontainer.junit)
 
     // Junit
     testFixturesRuntimeOnly(libs.junit.launcher)

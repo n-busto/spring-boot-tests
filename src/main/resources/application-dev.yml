@@ -4,6 +4,10 @@ spring:
       file: docker-compose.yml
       enabled: true
       lifecycle-management: start_only
+  kafka:
+    producer:
+      properties:
+        schema.registry.url: http://localhost:8081/
 management:
   endpoint:
     beans:

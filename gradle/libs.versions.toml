@@ -6,6 +6,7 @@ springboot-deps-version = "1.1.6"
 # Avro
 spring-cloud-stream-schema-version = "2.2.1.RELEASE"
 apache-avro-version = "1.12.0"
+kafka-avro-serializer-version = "7.9.0"
 
 # Utility
 lombok-version = "1.18.34"
@@ -18,6 +19,7 @@ junit-api-version = "5.11.1"
 junit-mockito-version = "5.14.1"
 instancio-version = "5.1.0"
 spring-kafka-test-version = "3.3.5"
+testcontainer-version = "1.21.0"
 
 [libraries]
 # Spring
@@ -31,6 +33,9 @@ spring-boot-docker-compose = { group = "org.springframework.boot", name = "sprin
 spring-cloud-stream-binder-kafka = { group = "org.springframework.cloud", name = "spring-cloud-stream-binder-kafka" }
 spring-cloud-stream-schema = { group = "org.springframework.cloud", name = "spring-cloud-stream-schema", version.ref = "spring-cloud-stream-schema-version" }
 apache-avro = { group = "org.apache.avro", name = "avro", version.ref = "apache-avro-version" }
+kafka-avro-serializer = { group = "io.confluent", name = "kafka-avro-serializer", version.ref = "kafka-avro-serializer-version" }
+kafka-testcontainer = { group = "org.testcontainers", name = "kafka", version.ref = "testcontainer-version" }
+testcontainer-junit = { group = "org.testcontainers", name = "junit-jupiter", version.ref = "testcontainer-version" }
 
 # Utility
 lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok-version" }
