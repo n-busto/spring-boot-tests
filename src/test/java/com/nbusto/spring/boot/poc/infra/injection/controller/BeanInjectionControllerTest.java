@@ -1,12 +1,12 @@
 package com.nbusto.spring.boot.poc.infra.injection.controller;
 
+import com.nbusto.spring.boot.poc.application.injection.StringListMother;
 import com.nbusto.spring.boot.poc.application.injection.usecase.BeanInjectionUseCase;
 import com.nbusto.spring.boot.poc.infra.annotations.ControllerTest;
-import com.nbusto.spring.boot.poc.application.injection.StringListMother;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -24,7 +24,7 @@ class BeanInjectionControllerTest {
   @Autowired
   private MockMvc mockMvc;
 
-  @MockBean
+  @MockitoBean
   private BeanInjectionUseCase useCase;
 
   @Test
