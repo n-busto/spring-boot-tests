@@ -14,3 +14,7 @@ app:
       topics:
         creation-topic: com.nbusto.spring.boot.poc.creation.0
         delete-topic: com.nbusto.spring.boot.poc.delete.0
+
+server:
+  servlet:
+    context-path: /tests
