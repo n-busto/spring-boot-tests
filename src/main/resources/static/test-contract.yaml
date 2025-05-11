@@ -102,13 +102,13 @@ paths:
                     type: array
                     items:
                       type: string
-  /injection/kafka:
+  /injection/kafka/createOrder:
     post:
-      summary: injects a message to kafka
+      summary: injects a message to kafka of type create order
       description: ''
-      operationId: kafka-injection
+      operationId: kafka-injection-create-order
       tags:
-        - injection
+        - kafka
       responses:
         "202":
           description: Received
@@ -119,7 +119,23 @@ paths:
               schema:
                 type: string
       requestBody:
-        $ref: "#/components/requestBodies/kafkaInjection"
+        $ref: "#/components/requestBodies/kafkaCreateOrder"
+  /injection/kafka/deleteOrder/{id}:
+    delete:
+      summary: injects a message to kafka of type delete order
+      description: ''
+      operationId: kafka-injection-delete-order
+      tags:
+        - kafka
+      responses:
+        "202":
+          description: Received
+        "400":
+          description: error on injection
+          content:
+            application/json:
+              schema:
+                type: string
 components:
   parameters:
     doubleParam:
@@ -152,6 +168,11 @@ components:
           type: integer
         doubleValue:
           type: number
+    createOrder:
+      type: object
+      properties:
+        id:
+          type: string
     acceptAny:
       type: object
       additionalProperties: true
@@ -162,9 +183,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/validationRequest"
-    kafkaInjection:
-      description: "Input for kafka injection"
+    kafkaCreateOrder:
+      description: "Input for kafka injection create order"
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/acceptAny"
+            $ref: "#/components/schemas/createOrder"
