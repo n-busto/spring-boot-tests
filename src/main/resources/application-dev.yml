@@ -7,7 +7,7 @@ spring:
 management:
   endpoint:
     beans:
-      enabled: true
+      access: read_only
   endpoints:
     web:
       exposure:
