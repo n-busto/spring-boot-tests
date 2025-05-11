@@ -1,6 +1,5 @@
 package com.nbusto.spring.boot.poc.infra.controller;
 
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ResourceLoader;
@@ -30,7 +29,7 @@ public class ControllerTestConfig {
   public MockMvc createCustomMvc(WebApplicationContext context, ResourceLoader resourceLoader) {
     return MockMvcBuilders.webAppContextSetup(context)
       .alwaysDo(it -> {
-        if (it.getResponse().getStatus() == HttpServletResponse.SC_OK) {
+        if (it.getResponse().getStatus() >= 200 && it.getResponse().getStatus() < 300) {
           createOpenApiValidator(resourceLoader).match(it);
         }
       })
