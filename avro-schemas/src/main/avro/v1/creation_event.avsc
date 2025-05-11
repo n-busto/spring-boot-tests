@@ -1,5 +1,5 @@
 {
-  "namespace": "com.nbusto.spring.boot.poc.infra.kafka.v1_1.dto",
+  "namespace": "com.nbusto.spring.boot.poc.infra.kafka.v1.dto",
   "type": "record",
   "name": "CreateOrder",
   "fields": [

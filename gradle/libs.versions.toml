@@ -1,7 +1,11 @@
 [versions]
 # Spring
-springboot-core-version = "3.3.4"
+springboot-core-version = "3.4.0"
 springboot-deps-version = "1.1.6"
+
+# Avro
+spring-cloud-stream-schema-version = "2.2.1.RELEASE"
+apache-avro-version = "1.12.0"
 
 # Utility
 lombok-version = "1.18.34"
@@ -13,6 +17,7 @@ swagger-validator-version = "2.42.0"
 junit-api-version = "5.11.1"
 junit-mockito-version = "5.14.1"
 instancio-version = "5.1.0"
+spring-kafka-test-version = "3.3.5"
 
 [libraries]
 # Spring
@@ -24,7 +29,8 @@ spring-boot-docker-compose = { group = "org.springframework.boot", name = "sprin
 
 # Kafka
 spring-cloud-stream-binder-kafka = { group = "org.springframework.cloud", name = "spring-cloud-stream-binder-kafka" }
-spring-cloud-stream-schema = { group = "org.springframework.cloud", name = "spring-cloud-stream-schema" }
+spring-cloud-stream-schema = { group = "org.springframework.cloud", name = "spring-cloud-stream-schema", version.ref = "spring-cloud-stream-schema-version" }
+apache-avro = { group = "org.apache.avro", name = "avro", version.ref = "apache-avro-version" }
 
 # Utility
 lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok-version" }
@@ -38,6 +44,7 @@ archunit = { group = "com.tngtech.archunit", name = "archunit-junit5", version.r
 karate = { group = "io.karatelabs", name = "karate-junit5", version.ref = "karate-version" }
 swagger-validator-mockmvc = { group = "com.atlassian.oai", name = "swagger-request-validator-mockmvc", version.ref = "swagger-validator-version" }
 swagger-validator-core = { group = "com.atlassian.oai", name = "swagger-request-validator-core", version.ref = "swagger-validator-version" }
+spring-kafka-test = { group = "org.springframework.kafka", name = "spring-kafka-test", version.ref = "spring-kafka-test-version" }
 
 [plugins]
 springboot-core = { id = "org.springframework.boot", version.ref = "springboot-core-version" }

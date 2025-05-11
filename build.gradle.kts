@@ -35,6 +35,7 @@ dependencies {
     // Kafka
     implementation(libs.spring.cloud.stream.binder.kafka)
     implementation(libs.spring.cloud.stream.schema)
+    implementation(libs.apache.avro)
 
     // Lombok
     compileOnly(libs.lombok)
@@ -50,6 +51,9 @@ dependencies {
     testImplementation(libs.springboot.test)
     testFixturesImplementation(libs.springboot.test)
     testFixturesImplementation(libs.springboot.web)
+
+    // Kafka
+    testImplementation(libs.spring.kafka.test)
 
     // Junit
     testFixturesRuntimeOnly(libs.junit.launcher)
@@ -79,11 +83,19 @@ dependencyManagement {
 val generateAvro by tasks.registering(Exec::class) {
     group = LifecycleBasePlugin.BUILD_GROUP
     workingDir = file("avro-schemas")
-    commandLine("./mvnw", "generate-sources")
+    commandLine("./mvnw", "clean", "install")
 }
 
-tasks.named("build") {
+tasks.named("clean") {
     dependsOn(generateAvro)
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir("avro-schemas/target/generated-sources/avro")
+        }
+    }
 }
 
 tasks.withType<Test> {
