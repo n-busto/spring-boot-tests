@@ -1,44 +1,45 @@
 package com.nbusto.spring.boot.poc.infra.kafka;
 
-
 import io.confluent.kafka.serializers.KafkaAvroDeserializer;
 import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.junit.jupiter.api.BeforeAll;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.ComposeContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.kafka.ConfluentKafkaContainer;
-import org.testcontainers.utility.DockerImageName;
 
+import java.io.File;
 import java.util.Map;
 
-@DirtiesContext
 @Testcontainers
 public abstract class KafkaTestContext {
 
   @Container
-  static final ConfluentKafkaContainer KAFKA_CONTAINER =
-    new ConfluentKafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:7.6.5"));
+  static final ComposeContainer CONTAINERISED_DOCKER_COMPOSE = new ComposeContainer(new File("src/testFixtures/resources/compose/docker-compose.yml"))
+    .withExposedService("kafka-broker", 9092)
+    .withExposedService("schema-registry", 8081)
+    .withEnv("CP_VERSION", "7.6.5");
 
-  private static Map<String, Object> CONSUMER_PROPS;
+  private static @NotNull String getServiceHost(String serviceName, int servicePort) {
+    return CONTAINERISED_DOCKER_COMPOSE.getServiceHost(serviceName, servicePort) + ":" + CONTAINERISED_DOCKER_COMPOSE.getServicePort(serviceName, servicePort);
+  }
 
   @DynamicPropertySource
   static void overrideProperties(DynamicPropertyRegistry registry) {
-    registry.add("spring.kafka.bootstrap-servers", KAFKA_CONTAINER::getBootstrapServers);
-    registry.add("spring.kafka.producer.properties.schema.registry.url", () -> "http://localhost:8081/");
+    registry.add("spring.kafka.bootstrap-servers", () -> getServiceHost("schema-registry", 8081));
+    registry.add("spring.kafka.producer.properties.schema.registry.url", () -> getServiceHost("schema-registry", 8081));
+    registry.add("schema.registry.url", () -> getServiceHost("schema-registry", 8081));
   }
 
-  @BeforeAll
-  static void beforeAll() {
-    CONSUMER_PROPS = Map.of(
-      "schema.registry.url", "http://localhost:8081/",
-      ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_CONTAINER.getBootstrapServers(),
+  protected <T> Consumer<String, T> createConsumer() {
+    final var properties = Map.<String, Object>of(
+      "schema.registry.url", getServiceHost("schema-registry", 8081),
+      ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, getServiceHost("kafka-broker", 9092),
       ConsumerConfig.GROUP_ID_CONFIG, "testConsumer",
       ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true",
       ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "10",
@@ -47,12 +48,7 @@ public abstract class KafkaTestContext {
       ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaAvroDeserializer.class,
       ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest",
       KafkaAvroDeserializerConfig.SPECIFIC_AVRO_READER_CONFIG, "true");
+
+    return new DefaultKafkaConsumerFactory<String, T>(properties).createConsumer();
   }
-
-  protected <T> Consumer<String, T> createConsumer() {
-    final var consumerFactory = new DefaultKafkaConsumerFactory<String, T>(CONSUMER_PROPS);
-
-    return consumerFactory.createConsumer();
-  }
-
 }
