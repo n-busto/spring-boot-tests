@@ -5,14 +5,12 @@ import com.nbusto.spring.boot.poc.infra.kafka.KafkaTestContext;
 import com.nbusto.spring.boot.poc.infra.kafka.v1.dto.DeleteOrder;
 import com.nbusto.spring.boot.poc.spring.SpringBootTestsApplication;
 import com.nbusto.spring.boot.poc.spring.kafka.KafkaProperties;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.kafka.test.utils.KafkaTestUtils;
 
-import java.time.Duration;
 import java.time.temporal.ChronoUnit;
-import java.util.Collections;
 import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.within;
@@ -31,19 +29,19 @@ class OrderDeleteEventProducerTest extends KafkaTestContext {
     // Given
     final var request = OrderMother.random();
     final var topic = kafkaProperties.topics().deleteTopic();
-    final var consumer = createConsumer();
+    //final var consumer = createConsumer();
 
     // When
     sut.sendDeleteEvent(request);
 
     // Then
-    consumer.subscribe(Collections.singletonList(topic));
+    //consumer.subscribe(Collections.singletonList(topic));
 
-    final var capturedEvent = KafkaTestUtils.getSingleRecord(
+    final ConsumerRecord<String, String> capturedEvent = null/*KafkaTestUtils.getSingleRecord(
       consumer,
       topic,
       Duration.ofSeconds(3)
-    );
+    )*/;
 
     then(capturedEvent)
       .isNotNull()
