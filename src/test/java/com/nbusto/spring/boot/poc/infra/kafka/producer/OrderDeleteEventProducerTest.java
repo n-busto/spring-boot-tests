@@ -2,7 +2,7 @@ package com.nbusto.spring.boot.poc.infra.kafka.producer;
 
 import com.nbusto.spring.boot.poc.domain.kafka.OrderMother;
 import com.nbusto.spring.boot.poc.infra.kafka.KafkaTestContext;
-import com.nbusto.spring.boot.poc.infra.kafka.v1.dto.DeleteOrder;
+import com.nbusto.spring.boot.poc.infra.kafka.v1.dto.DeleteOrderEvent;
 import com.nbusto.spring.boot.poc.spring.SpringBootTestsApplication;
 import com.nbusto.spring.boot.poc.spring.kafka.KafkaProperties;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -55,7 +55,7 @@ class OrderDeleteEventProducerTest extends KafkaTestContext {
 
         then(event.value())
           .isNotNull()
-          .isInstanceOfSatisfying(DeleteOrder.class, it -> {
+          .isInstanceOfSatisfying(DeleteOrderEvent.class, it -> {
 
             then(it.getId())
               .isNotNull()

@@ -1,7 +1,7 @@
 {
   "namespace": "com.nbusto.spring.boot.poc.infra.kafka.v1.dto",
   "type": "record",
-  "name": "DeleteOrder",
+  "name": "DeleteOrderEvent",
   "fields": [
     {
       "name": "id",

@@ -2,7 +2,7 @@ package com.nbusto.spring.boot.poc.infra.kafka.producer;
 
 import com.nbusto.spring.boot.poc.domain.kafka.OrderMother;
 import com.nbusto.spring.boot.poc.infra.kafka.KafkaTestContext;
-import com.nbusto.spring.boot.poc.infra.kafka.v1.dto.CreateOrder;
+import com.nbusto.spring.boot.poc.infra.kafka.v1.dto.CreateOrderEvent;
 import com.nbusto.spring.boot.poc.spring.kafka.KafkaProperties;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +59,7 @@ class OrderCreationEventProducerTest extends KafkaTestContext {
 
         then(event.value())
           .isNotNull()
-          .isInstanceOfSatisfying(CreateOrder.class, it -> {
+          .isInstanceOfSatisfying(CreateOrderEvent.class, it -> {
 
             then(it.getId())
               .isNotNull()
