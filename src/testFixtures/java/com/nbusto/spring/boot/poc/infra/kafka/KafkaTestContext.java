@@ -48,13 +48,13 @@ public abstract class KafkaTestContext {
   @DynamicPropertySource
   static void registerContainerProperties(DynamicPropertyRegistry registry) {
     registry.add("spring.kafka.properties.schema.registry.url",
-      KafkaTestContext::buildBootstrapServer);
+      KafkaTestContext::buildSchemaRegistryServerUri);
     registry.add("spring.kafka.bootstrap-servers",
       KAFKA_CONTAINER::getBootstrapServers);
   }
 
   static Map<String, Object> consumerProps() {
-    return Map.of("schema.registry.url", buildBootstrapServer(),
+    return Map.of("schema.registry.url", buildSchemaRegistryServerUri(),
       ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_CONTAINER.getBootstrapServers(),
       ConsumerConfig.GROUP_ID_CONFIG, "testConsumer",
       ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true",
@@ -66,7 +66,7 @@ public abstract class KafkaTestContext {
       KafkaAvroDeserializerConfig.SPECIFIC_AVRO_READER_CONFIG, "true");
   }
 
-  private static @NotNull String buildBootstrapServer() {
+  private static @NotNull String buildSchemaRegistryServerUri() {
     return "http://localhost:" + SCHEMA_REGISTRY_CONTAINER.getMappedPort(8081);
   }
 
