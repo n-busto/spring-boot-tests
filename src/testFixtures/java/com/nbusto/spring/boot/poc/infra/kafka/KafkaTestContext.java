@@ -1,14 +1,14 @@
 package com.nbusto.spring.boot.poc.infra.kafka;
 
+import com.nbusto.spring.boot.poc.spring.SpringBootTestsApplication;
 import io.confluent.kafka.serializers.KafkaAvroDeserializer;
 import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig;
-import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
@@ -16,19 +16,13 @@ import org.testcontainers.containers.Network;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.kafka.ConfluentKafkaContainer;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ser.std.StringSerializer;
 
 import java.util.Map;
 
 import static org.testcontainers.utility.DockerImageName.parse;
 
 @Testcontainers
-@ContextConfiguration(classes = {
-  StringDeserializer.class,
-  KafkaAvroDeserializer.class,
-  StringSerializer.class,
-  KafkaAvroSerializer.class
-})
+@SpringBootTest(classes = SpringBootTestsApplication.class)
 public abstract class KafkaTestContext {
 
   private static final Network NETWORK = Network.newNetwork();
