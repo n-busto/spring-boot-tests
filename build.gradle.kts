@@ -57,6 +57,7 @@ dependencies {
 
     // Kafka
     testImplementation(libs.spring.kafka.test)
+    testFixturesImplementation(libs.spring.kafka.test)
     testFixturesImplementation(libs.kafka.testcontainer)
     testImplementation(libs.testcontainer.junit)
     testFixturesImplementation(libs.testcontainer.junit)
