@@ -30,13 +30,10 @@ class OrderCreationEventProducerTest extends KafkaTestContext {
     sut.sendCreationEvent(request);
 
     // Then
-    final var capturedEvents = KafkaTestUtils.getRecords(KAFKA_CONSUMER);
+    final var capturedEvent = KafkaTestUtils.getSingleRecord(KAFKA_CONSUMER, "com.nbusto.spring.boot.poc.creation.0");
 
-    then(capturedEvents)
+    then(capturedEvent)
       .isNotNull()
-      .doesNotContainNull()
-      .hasSize(1)
-      .first()
       .satisfies(event -> {
         then(event.key())
           .isNotNull()
