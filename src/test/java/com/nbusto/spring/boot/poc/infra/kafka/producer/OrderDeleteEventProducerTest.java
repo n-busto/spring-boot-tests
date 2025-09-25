@@ -4,8 +4,6 @@ import com.nbusto.spring.boot.poc.domain.kafka.OrderMother;
 import com.nbusto.spring.boot.poc.infra.kafka.KafkaTestContext;
 import com.nbusto.spring.boot.poc.infra.kafka.v1.dto.DeleteOrderEvent;
 import com.nbusto.spring.boot.poc.spring.SpringBootTestsApplication;
-import com.nbusto.spring.boot.poc.spring.kafka.KafkaProperties;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,8 +16,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 
 @SpringBootTest(classes = SpringBootTestsApplication.class)
 class OrderDeleteEventProducerTest extends KafkaTestContext {
-  @Autowired
-  private KafkaProperties kafkaProperties;
 
   @Autowired
   private OrderDeleteEventProducer sut;
@@ -28,20 +24,12 @@ class OrderDeleteEventProducerTest extends KafkaTestContext {
   void given_a_valid_message_when_sent_then_is_registered() {
     // Given
     final var request = OrderMother.random();
-    final var topic = kafkaProperties.topics().deleteTopic();
-    //final var consumer = createConsumer();
 
     // When
     sut.sendDeleteEvent(request);
 
     // Then
-    //consumer.subscribe(Collections.singletonList(topic));
-
-    final ConsumerRecord<String, String> capturedEvent = null/*KafkaTestUtils.getSingleRecord(
-      consumer,
-      topic,
-      Duration.ofSeconds(3)
-    )*/;
+    final var capturedEvent = consumer.consumeMessage("com.nbusto.spring.boot.poc.delete.0");
 
     then(capturedEvent)
       .isNotNull()
