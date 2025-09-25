@@ -21,7 +21,7 @@ public class OrderDeleteEventProducer {
 
   private final KafkaTemplate<String, DeleteOrderEvent> kafkaTemplate;
 
-  public void sendDeleteEvent(Order order) {
+  public void sendDeleteEvent(final Order order) {
 
     kafkaTemplate.send(
         kafkaProperties.topics().deleteTopic(),
@@ -30,10 +30,10 @@ public class OrderDeleteEventProducer {
       .thenAccept(result -> log.info("Successfully send creation {}", result));
   }
 
-  private DeleteOrderEvent orderToEvent(Order order) {
+  private DeleteOrderEvent orderToEvent(final Order order) {
     return DeleteOrderEvent.newBuilder()
       .setId(order.id())
-      .setDeleteTime(order.creationTime().toLocalDateTime())
+      .setDeleteTime(order.deleteTime().toLocalDateTime())
       .build();
   }
 }

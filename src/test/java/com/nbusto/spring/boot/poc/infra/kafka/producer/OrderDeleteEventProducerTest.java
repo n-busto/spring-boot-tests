@@ -51,7 +51,7 @@ class OrderDeleteEventProducerTest extends KafkaTestContext {
 
             then(it.getDeleteTime())
               .isNotNull()
-              .isCloseTo(request.creationTime().toLocalDateTime(), within(1, ChronoUnit.SECONDS));
+              .isCloseTo(request.deleteTime().toLocalDateTime(), within(1, ChronoUnit.SECONDS));
           });
       });
   }
