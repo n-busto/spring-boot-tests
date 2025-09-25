@@ -17,7 +17,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/injection/kafka/order")
 @RequiredArgsConstructor
-public class KafkaRestController {
+public class OrderCreationRestController {
 
   private final OrderCreationEventProducer orderCreationEventProducer;
 
@@ -25,7 +25,7 @@ public class KafkaRestController {
   public ResponseEntity<Void> createOrder(
     @RequestBody OrderCreationRequest request
   ) {
-    Order order = creationRequestAsDomain(request);
+    final var order = creationRequestAsDomain(request);
     orderCreationEventProducer.sendCreationEvent(order);
 
     return ResponseEntity.accepted().build();
