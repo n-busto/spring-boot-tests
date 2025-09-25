@@ -39,6 +39,14 @@ public abstract class KafkaTestContext {
     registry.add("spring.kafka.bootstrap-servers", KafkaTestContext::buildBoostrapServers);
   }
 
+  private static @NotNull String buildSchemaRegistryServerUri() {
+    return "http://localhost:" + COMPOSE_CONTAINER.getServicePort("schema-registry", 8081);
+  }
+
+  private static @NotNull String buildBoostrapServers() {
+    return "localhost:" + COMPOSE_CONTAINER.getServicePort("kafka", 9092);
+  }
+
   private static Map<String, Object> consumerProps() {
     final var properties = KafkaTestUtils.consumerProps(buildBoostrapServers(), "test-group", "true");
 
@@ -48,14 +56,6 @@ public abstract class KafkaTestContext {
     properties.put(KafkaAvroDeserializerConfig.SPECIFIC_AVRO_READER_CONFIG, true);
 
     return properties;
-  }
-
-  private static @NotNull String buildSchemaRegistryServerUri() {
-    return "http://localhost:" + COMPOSE_CONTAINER.getServicePort("schema-registry", 8081);
-  }
-
-  private static @NotNull String buildBoostrapServers() {
-    return "localhost:" + COMPOSE_CONTAINER.getServicePort("kafka", 9092);
   }
 
   protected static <T> Consumer<String, T> createConsumer(final String topic) {
