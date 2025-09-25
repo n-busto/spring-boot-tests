@@ -5,3 +5,7 @@ Content-Type: application/json
 {
   "id": "IGSTPJFR"
 }
+
+###
+@id = 1
+DELETE {{baseUrl}}/injection/kafka/order/{{id}}
