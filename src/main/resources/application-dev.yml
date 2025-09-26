@@ -5,6 +5,7 @@ spring:
       enabled: true
       lifecycle-management: start_only
   kafka:
+    bootstrap-servers: localhost:9092
     producer:
       properties:
         schema.registry.url: http://localhost:8081/

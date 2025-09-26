@@ -7,6 +7,7 @@ spring:
     compose:
       enabled: false
   kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_URL}
     properties:
       schema.registry.url: ${KAFKA_SCHEMA_URL}
     producer:
@@ -15,6 +16,7 @@ spring:
     consumer:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      group-id: spring-boot-test
 
 app:
   config:
