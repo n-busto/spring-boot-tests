@@ -19,7 +19,6 @@ spring:
 app:
   config:
     kafka:
-      group-id: spring-boot-tests
       topics:
         creation-topic: com.nbusto.spring.boot.poc.creation.0
         delete-topic: com.nbusto.spring.boot.poc.delete.0
