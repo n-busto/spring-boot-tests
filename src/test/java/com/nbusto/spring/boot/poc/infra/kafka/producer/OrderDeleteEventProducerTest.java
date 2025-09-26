@@ -3,10 +3,8 @@ package com.nbusto.spring.boot.poc.infra.kafka.producer;
 import com.nbusto.spring.boot.poc.domain.kafka.OrderMother;
 import com.nbusto.spring.boot.poc.infra.kafka.KafkaTestContext;
 import com.nbusto.spring.boot.poc.infra.kafka.v1.dto.DeleteOrderEvent;
-import com.nbusto.spring.boot.poc.spring.SpringBootTestsApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.temporal.ChronoUnit;
 import java.util.regex.Pattern;
@@ -14,7 +12,6 @@ import java.util.regex.Pattern;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.api.BDDAssertions.then;
 
-@SpringBootTest(classes = SpringBootTestsApplication.class)
 class OrderDeleteEventProducerTest extends KafkaTestContext {
 
   @Autowired
