@@ -27,7 +27,7 @@ public class OrderDeleteEventProducer {
         kafkaProperties.topics().deleteTopic(),
         UUID.randomUUID().toString(),
         orderToEvent(order))
-      .thenAccept(result -> log.info("Successfully send creation {}", result));
+      .thenAccept(result -> log.info("Successfully send delete {}", result));
   }
 
   private DeleteOrderEvent orderToEvent(final Order order) {
