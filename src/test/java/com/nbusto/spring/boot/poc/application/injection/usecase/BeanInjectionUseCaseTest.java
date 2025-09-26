@@ -1,8 +1,8 @@
 package com.nbusto.spring.boot.poc.application.injection.usecase;
 
 import com.nbusto.spring.boot.poc.application.ApplicationTest;
+import com.nbusto.spring.boot.poc.application.injection.StringMother;
 import com.nbusto.spring.boot.poc.application.injection.port.BeanPort;
-import com.nbusto.spring.boot.poc.application.injection.StringListMother;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
@@ -36,7 +36,7 @@ public class BeanInjectionUseCaseTest {
   @Test
   void given_some_beans_it_returns_their_names() {
     // Given
-    final var beanNames = StringListMother.random();
+    final var beanNames = StringMother.randomList();
 
     // When
     BDDMockito.given(beanPortList.stream())

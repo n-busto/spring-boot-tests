@@ -7,9 +7,13 @@ import org.instancio.Instancio;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class StringListMother {
+public class StringMother {
 
-  public static List<String> random() {
+  public static List<String> randomList() {
     return Instancio.createList(String.class);
+  }
+
+  public static String random() {
+    return Instancio.create(String.class);
   }
 }

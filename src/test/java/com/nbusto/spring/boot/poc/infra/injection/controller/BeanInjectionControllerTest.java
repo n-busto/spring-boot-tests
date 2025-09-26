@@ -1,6 +1,6 @@
 package com.nbusto.spring.boot.poc.infra.injection.controller;
 
-import com.nbusto.spring.boot.poc.application.injection.StringListMother;
+import com.nbusto.spring.boot.poc.application.injection.StringMother;
 import com.nbusto.spring.boot.poc.application.injection.usecase.BeanInjectionUseCase;
 import com.nbusto.spring.boot.poc.infra.annotations.ControllerTest;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ class BeanInjectionControllerTest {
   void given_a_bean_list_then_data_is_returned_right()
     throws Exception {
     // Given
-    final var randomBeanNameList = StringListMother.random();
+    final var randomBeanNameList = StringMother.randomList();
 
     given(useCase.getBeanNames())
       .willReturn(randomBeanNameList);
