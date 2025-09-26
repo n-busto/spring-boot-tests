@@ -11,6 +11,15 @@ import org.testcontainers.containers.wait.strategy.Wait;
 
 import java.io.File;
 
+/**
+ * Context to launch kafka test.
+ * <p>
+ * Creates a docker image from docker file to simulate an environment.
+ * </p>
+ * <p>
+ * Creates a kafka consumer to be used in producer tests.
+ * </p>
+ */
 @SpringBootTest(classes = SpringBootTestsApplication.class)
 public abstract class KafkaTestContext {
 
