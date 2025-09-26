@@ -2,21 +2,18 @@ package com.nbusto.spring.boot.poc.infra.kafka;
 
 import com.nbusto.spring.boot.poc.spring.SpringBootTestsApplication;
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.BeforeAll;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.ComposeContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.io.File;
 
-@Testcontainers
 @SpringBootTest(classes = SpringBootTestsApplication.class)
 public abstract class KafkaTestContext {
 
-  @Container
   static final ComposeContainer COMPOSE_CONTAINER = new ComposeContainer(
     new File("src/testFixtures/resources/testing-docker-compose.yml"))
     .withEnv("CP_VERSION", "7.6.5")
@@ -28,6 +25,11 @@ public abstract class KafkaTestContext {
     buildBoostrapServers(),
     buildSchemaRegistryServerUri()
   );
+
+  @BeforeAll
+  static void runContainers() {
+    COMPOSE_CONTAINER.start();
+  }
 
   @DynamicPropertySource
   static void registerContainerProperties(DynamicPropertyRegistry registry) {
