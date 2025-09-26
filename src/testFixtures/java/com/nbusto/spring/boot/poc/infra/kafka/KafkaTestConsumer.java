@@ -32,6 +32,10 @@ public class KafkaTestConsumer {
 
     consumer.subscribe(Collections.singletonList(topic));
 
-    return KafkaTestUtils.getSingleRecord(consumer, topic);
+    final var record = KafkaTestUtils.getSingleRecord(consumer, topic);
+    
+    consumer.close();
+
+    return record;
   }
 }
