@@ -3,3 +3,6 @@ GET {{baseUrl}}/actuator
 
 ### Actuator health
 GET {{baseUrl}}/actuator/health
+
+### Actuator Beans
+GET {{baseUrl}}/actuator/beans
