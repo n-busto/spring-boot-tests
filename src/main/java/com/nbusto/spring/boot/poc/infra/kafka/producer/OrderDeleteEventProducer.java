@@ -2,7 +2,7 @@ package com.nbusto.spring.boot.poc.infra.kafka.producer;
 
 import com.nbusto.spring.boot.poc.domain.kafka.Order;
 import com.nbusto.spring.boot.poc.infra.kafka.v1.dto.DeleteOrderEvent;
-import com.nbusto.spring.boot.poc.spring.kafka.KafkaProperties;
+import com.nbusto.spring.boot.poc.spring.kafka.KafkaCustomProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -13,18 +13,18 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-@EnableConfigurationProperties(KafkaProperties.class)
+@EnableConfigurationProperties(KafkaCustomProperties.class)
 @Slf4j
 public class OrderDeleteEventProducer {
 
-  private final KafkaProperties kafkaProperties;
+  private final KafkaCustomProperties kafkaCustomProperties;
 
   private final KafkaTemplate<String, DeleteOrderEvent> kafkaTemplate;
 
   public void sendDeleteEvent(final Order order) {
 
     kafkaTemplate.send(
-        kafkaProperties.topics().deleteTopic(),
+        kafkaCustomProperties.topics().deleteTopic(),
         UUID.randomUUID().toString(),
         orderToEvent(order))
       .thenAccept(result -> log.info("Successfully send delete {}", result));
