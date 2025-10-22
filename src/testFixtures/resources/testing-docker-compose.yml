@@ -5,6 +5,12 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    healthcheck:
+      test: nc -z localhost 2181 || exit -1
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
   kafka:
     image: confluentinc/cp-kafka:${CP_VERSION}
@@ -12,7 +18,7 @@ services:
       - "9092:9092"
     depends_on:
       zookeeper:
-        condition: service_started
+        condition: service_healthy
         restart: true
     environment:
       KAFKA_BROKER_ID: 1
@@ -28,7 +34,7 @@ services:
       - "8081:8081"
     depends_on:
       zookeeper:
-        condition: service_started
+        condition: service_healthy
         restart: true
       kafka:
         condition: service_started

@@ -6,6 +6,12 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    healthcheck:
+      test: nc -z localhost 2181 || exit -1
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
   kafka:
     image: confluentinc/cp-kafka:${CP_VERSION}
@@ -14,7 +20,7 @@ services:
       - "9092:9092"
     depends_on:
       zookeeper:
-        condition: service_started
+        condition: service_healthy
         restart: true
     environment:
       KAFKA_BROKER_ID: 1
@@ -23,6 +29,11 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    healthcheck:
+      test: [ "CMD", "bash", "-c", "unset" , "JMX_PORT" ,";" ,"kafka-topics.sh","--zookeeper","zookeeper:2181","--list" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   schema-registry:
     image: confluentinc/cp-schema-registry:${CP_VERSION}
@@ -31,21 +42,28 @@ services:
       - "8081:8081"
     depends_on:
       zookeeper:
-        condition: service_started
+        condition: service_healthy
         restart: true
       kafka:
         condition: service_started
     environment:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka:29092'
+    healthcheck:
+      test: curl --output /dev/null --silent --head --fail http://schema-registry:8081/subjects
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   control-center:
     image: confluentinc/cp-enterprise-control-center:${CP_VERSION}
     ports:
       - "9021:9021"
     depends_on:
-      - kafka
-      - schema-registry
+      kafka:
+        condition: service_healthy
+      schema-registry:
+        condition: service_healthy
     environment:
       CONTROL_CENTER_BOOTSTRAP_SERVERS: kafka:29092
       CONTROL_CENTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
