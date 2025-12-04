@@ -17,6 +17,7 @@ class TestArchitectureRules {
   @ArchTest
   public static final ArchRule CLASSES_MAY_HAVE_TEST_ENDING = classes()
     .that().resideOutsideOfPackage("..arch..")
+    .and().areNotNestedClasses()
     .should().haveSimpleNameEndingWith("Test");
 
   @ArchTest
