@@ -10,6 +10,7 @@ import org.springframework.kafka.test.utils.KafkaTestUtils;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.UUID;
 
 public class KafkaTestConsumer {
 
@@ -25,6 +26,7 @@ public class KafkaTestConsumer {
     properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
     properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaAvroDeserializer.class);
     properties.put(KafkaAvroDeserializerConfig.SPECIFIC_AVRO_READER_CONFIG, true);
+    properties.put(ConsumerConfig.GROUP_ID_CONFIG, "test-group-" + UUID.randomUUID());
   }
 
   public <T> ConsumerRecord<String, T> consumeMessage(final String topic) {
@@ -33,7 +35,7 @@ public class KafkaTestConsumer {
     consumer.subscribe(Collections.singletonList(topic));
 
     final var record = KafkaTestUtils.getSingleRecord(consumer, topic);
-    
+
     consumer.close();
 
     return record;
