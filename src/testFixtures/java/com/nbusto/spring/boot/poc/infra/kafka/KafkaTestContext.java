@@ -55,14 +55,14 @@ public abstract class KafkaTestContext {
     registry.add("spring.cloud.stream.kafka.binder.brokers", KafkaTestContext::buildBoostrapServers);
   }
 
-  private static @NotNull String buildSchemaRegistryServerUri() {
+  protected static @NotNull String buildSchemaRegistryServerUri() {
     return "http://" +
       COMPOSE_CONTAINER.getServiceHost("schema-registry", 8081) +
       ":" +
       COMPOSE_CONTAINER.getServicePort("schema-registry", 8081);
   }
 
-  private static @NotNull String buildBoostrapServers() {
+  protected static @NotNull String buildBoostrapServers() {
     return COMPOSE_CONTAINER.getServiceHost("kafka", 9092) +
       ":" +
       COMPOSE_CONTAINER.getServicePort("kafka", 9092);
