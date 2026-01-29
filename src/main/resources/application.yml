@@ -32,7 +32,7 @@ spring:
         creation-in-0:
           destination: com.nbusto.spring.boot.poc.creation.0
           consumer:
-            use-native-decoding: true
+            useNativeDecoding: true
         delete-out-0:
           destination: com.nbusto.spring.boot.poc.delete.0
           producer:
@@ -40,7 +40,7 @@ spring:
         delete-in-0:
           destination: com.nbusto.spring.boot.poc.delete.0
           consumer:
-            use-native-decoding: true
+            useNativeDecoding: true
 
 server:
   servlet:
