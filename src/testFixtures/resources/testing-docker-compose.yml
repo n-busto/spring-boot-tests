@@ -14,8 +14,6 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka:${CP_VERSION}
-    ports:
-      - "9092:9092"
     depends_on:
       zookeeper:
         condition: service_healthy
@@ -30,8 +28,6 @@ services:
 
   schema-registry:
     image: confluentinc/cp-schema-registry:${CP_VERSION}
-    ports:
-      - "8081:8081"
     depends_on:
       zookeeper:
         condition: service_healthy
