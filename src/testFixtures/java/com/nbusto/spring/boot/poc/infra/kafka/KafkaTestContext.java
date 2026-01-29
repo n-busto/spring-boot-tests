@@ -9,8 +9,6 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.ComposeContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.deser.std.StringDeserializer;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ser.std.StringSerializer;
 
@@ -26,16 +24,17 @@ import java.io.File;
  * </p>
  */
 @SpringBootTest(classes = SpringBootTestsApplication.class)
-@Testcontainers
 public abstract class KafkaTestContext {
-
-  @Container
   static final ComposeContainer COMPOSE_CONTAINER = new ComposeContainer(
     new File("src/testFixtures/resources/testing-docker-compose.yml"))
     .withEnv("CP_VERSION", "7.6.5")
     .withExposedService("kafka", 9092)
     .withExposedService("schema-registry", 8081)
     .waitingFor("schema-registry", Wait.forHttp("/subjects").forStatusCode(200));
+
+  static {
+    COMPOSE_CONTAINER.start();
+  }
 
   protected final KafkaTestConsumer consumer = new KafkaTestConsumer(
     buildBoostrapServers(),
