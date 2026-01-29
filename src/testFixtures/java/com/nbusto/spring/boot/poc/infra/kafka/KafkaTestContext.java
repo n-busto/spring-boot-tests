@@ -42,15 +42,21 @@ public abstract class KafkaTestContext {
 
   @DynamicPropertySource
   static void registerContainerProperties(DynamicPropertyRegistry registry) {
-    registry.add("spring.kafka.properties.schema.registry.url", KafkaTestContext::buildSchemaRegistryServerUri);
-    registry.add("spring.kafka.bootstrap-servers", KafkaTestContext::buildBoostrapServers);
+    registry.add("spring.cloud.stream.kafka.binder.producer-properties.schema.registry.url", KafkaTestContext::buildSchemaRegistryServerUri);
+    registry.add("spring.cloud.stream.kafka.binder.consumer-properties.schema.registry.url", KafkaTestContext::buildSchemaRegistryServerUri);
+    registry.add("spring.cloud.stream.kafka.binder.brokers", KafkaTestContext::buildBoostrapServers);
   }
 
   private static @NotNull String buildSchemaRegistryServerUri() {
-    return "http://localhost:" + COMPOSE_CONTAINER.getServicePort("schema-registry", 8081);
+    return "http://" +
+      COMPOSE_CONTAINER.getServiceHost("schema-registry", 8081) +
+      ":" +
+      COMPOSE_CONTAINER.getServicePort("schema-registry", 8081);
   }
 
   private static @NotNull String buildBoostrapServers() {
-    return "localhost:" + COMPOSE_CONTAINER.getServicePort("kafka", 9092);
+    return COMPOSE_CONTAINER.getServiceHost("kafka", 9092) +
+      ":" +
+      COMPOSE_CONTAINER.getServicePort("kafka", 9092);
   }
 }
