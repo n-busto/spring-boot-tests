@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: spring-boot-test
   main:
     lazy-initialization: true
     banner-mode: off
@@ -6,24 +8,39 @@ spring:
   docker:
     compose:
       enabled: false
-  kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_URL}
-    properties:
-      schema.registry.url: ${KAFKA_SCHEMA_URL}
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-    consumer:
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
-      group-id: spring-boot-test
-
-app:
-  config:
-    kafka:
-      topics:
-        creation-topic: com.nbusto.spring.boot.poc.creation.0
-        delete-topic: com.nbusto.spring.boot.poc.delete.0
+  cloud:
+    stream:
+      default:
+        group: "${spring.application.name}"
+      kafka:
+        binder:
+          brokers: ${KAFKA_BOOTSTRAP_URL}
+          consumer-properties:
+            schema.registry.url: ${KAFKA_SCHEMA_URL}
+            key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+            specific.avro.reader: true
+          producer-properties:
+            schema.registry.url: ${KAFKA_SCHEMA_URL}
+            key.serializer: org.apache.kafka.common.serialization.StringSerializer
+            value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      bindings:
+        creation-out-0:
+          destination: com.nbusto.spring.boot.poc.creation.0
+          producer:
+            useNativeEncoding: true
+        creation-in-0:
+          destination: com.nbusto.spring.boot.poc.creation.0
+          consumer:
+            use-native-decoding: true
+        delete-out-0:
+          destination: com.nbusto.spring.boot.poc.delete.0
+          producer:
+            useNativeEncoding: true
+        delete-in-0:
+          destination: com.nbusto.spring.boot.poc.delete.0
+          consumer:
+            use-native-decoding: true
 
 server:
   servlet:

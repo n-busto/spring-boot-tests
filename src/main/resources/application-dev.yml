@@ -1,13 +1,24 @@
+#logging:
+#  level:
+#    org.springframework.kafka: DEBUG
+#    org.apache.kafka: DEBUG
+#    com.nbusto.spring.boot.poc.infra.kafka: DEBUG
+
 spring:
   docker:
     compose:
       file: docker-compose.yml
       enabled: true
       lifecycle-management: start_only
-  kafka:
-    bootstrap-servers: localhost:9092
-    properties:
-      schema.registry.url: http://localhost:8081/
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+          consumer-properties:
+            schema.registry.url: http://localhost:8081/
+          producer-properties:
+            schema.registry.url: http://localhost:8081/
 management:
   endpoint:
     beans:
