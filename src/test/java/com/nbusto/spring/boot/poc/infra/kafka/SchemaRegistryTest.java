@@ -73,18 +73,6 @@ class SchemaRegistryTest extends KafkaTestContext {
     Assertions.assertDoesNotThrow(() -> template.send(TOPIC, event));
   }
 
-  @Test
-  void given_not_valid_event_when_sending_then_throws_exception() throws RestClientException, IOException {
-
-    // Given
-    registerSchema();
-
-    final var event = new TestEvent.TestEventBuilder().build();
-
-    // Expect
-    Assertions.assertThrows(Exception.class, () -> template.send(TOPIC, event));
-  }
-
   private void registerSchema() throws IOException, RestClientException {
     final var parsedSchema = schemaRegistryClient.parseSchema(
       AvroSchema.TYPE,
@@ -95,6 +83,18 @@ class SchemaRegistryTest extends KafkaTestContext {
       final var schema = parsedSchema.get();
       schemaRegistryClient.register(SUBJECT, schema, 1, 1);
     }
+  }
+
+  @Test
+  void given_not_valid_event_when_sending_then_throws_exception() throws RestClientException, IOException {
+
+    // Given
+    registerSchema();
+
+    final var event = new TestEvent.TestEventBuilder().build();
+
+    // Expect
+    Assertions.assertThrows(Exception.class, () -> template.send(TOPIC, event));
   }
 
   @TestConfiguration
