@@ -5,6 +5,8 @@ import com.nbusto.spring.boot.poc.infra.kafka.v1.dto.CreateOrderEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,10 +17,14 @@ public class OrderCreationEventProducer {
   private final StreamBridge bridge;
 
   public void sendCreationEvent(Order order) {
+    final var message = MessageBuilder
+      .withPayload(orderToEvent(order))
+      .setHeader(KafkaHeaders.KEY, order.uuid().toString())
+      .build();
 
     final var success = bridge.send(
       "creation-out-0",
-      orderToEvent(order));
+      message);
 
     if (!success) {
       throw new RuntimeException("Unable to send Order Event");
