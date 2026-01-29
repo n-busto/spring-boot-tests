@@ -41,6 +41,7 @@ spring:
           destination: com.nbusto.spring.boot.poc.delete.0
           consumer:
             useNativeDecoding: true
+      default-binder: kafka
 
 server:
   servlet:
