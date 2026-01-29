@@ -1,6 +1,8 @@
 package com.nbusto.spring.boot.poc.infra.kafka;
 
 import com.nbusto.spring.boot.poc.spring.SpringBootTestsApplication;
+import io.confluent.kafka.serializers.KafkaAvroDeserializer;
+import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,6 +10,8 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.ComposeContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.deser.std.StringDeserializer;
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.ser.std.StringSerializer;
 
 import java.io.File;
 
@@ -43,7 +47,11 @@ public abstract class KafkaTestContext {
   @DynamicPropertySource
   static void registerContainerProperties(DynamicPropertyRegistry registry) {
     registry.add("spring.cloud.stream.kafka.binder.producer-properties.schema.registry.url", KafkaTestContext::buildSchemaRegistryServerUri);
+    registry.add("spring.cloud.stream.kafka.binder.producer-properties.key.serializer", StringSerializer.class::getCanonicalName);
+    registry.add("spring.cloud.stream.kafka.binder.producer-properties.value.serializer", KafkaAvroSerializer.class::getCanonicalName);
     registry.add("spring.cloud.stream.kafka.binder.consumer-properties.schema.registry.url", KafkaTestContext::buildSchemaRegistryServerUri);
+    registry.add("spring.cloud.stream.kafka.binder.consumer-properties.key.deserializer", StringDeserializer.class::getCanonicalName);
+    registry.add("spring.cloud.stream.kafka.binder.consumer-properties.value.deserializer", KafkaAvroDeserializer.class::getCanonicalName);
     registry.add("spring.cloud.stream.kafka.binder.brokers", KafkaTestContext::buildBoostrapServers);
   }
 
