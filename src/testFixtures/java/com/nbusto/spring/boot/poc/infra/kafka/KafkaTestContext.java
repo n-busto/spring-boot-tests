@@ -4,12 +4,13 @@ import com.nbusto.spring.boot.poc.spring.SpringBootTestsApplication;
 import io.confluent.kafka.serializers.KafkaAvroDeserializer;
 import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.BeforeAll;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.ComposeContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.deser.std.StringDeserializer;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ser.std.StringSerializer;
 
@@ -25,8 +26,10 @@ import java.io.File;
  * </p>
  */
 @SpringBootTest(classes = SpringBootTestsApplication.class)
+@Testcontainers
 public abstract class KafkaTestContext {
 
+  @Container
   static final ComposeContainer COMPOSE_CONTAINER = new ComposeContainer(
     new File("src/testFixtures/resources/testing-docker-compose.yml"))
     .withEnv("CP_VERSION", "7.6.5")
@@ -38,11 +41,6 @@ public abstract class KafkaTestContext {
     buildBoostrapServers(),
     buildSchemaRegistryServerUri()
   );
-
-  @BeforeAll
-  static void runContainers() {
-    COMPOSE_CONTAINER.start();
-  }
 
   @DynamicPropertySource
   static void registerContainerProperties(DynamicPropertyRegistry registry) {
