@@ -4,8 +4,8 @@ import io.confluent.kafka.serializers.KafkaAvroDeserializer;
 import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
 
 import java.util.Collections;
@@ -30,7 +30,7 @@ public class KafkaTestConsumer {
   }
 
   public <T> ConsumerRecord<String, T> consumeMessage(final String topic) {
-    final var consumer = new DefaultKafkaConsumerFactory<String, T>(properties).createConsumer();
+    final var consumer = new KafkaConsumer<String, T>(properties);
 
     consumer.subscribe(Collections.singletonList(topic));
 
