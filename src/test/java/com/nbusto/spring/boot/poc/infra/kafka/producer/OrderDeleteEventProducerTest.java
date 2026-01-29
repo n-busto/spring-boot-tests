@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.temporal.ChronoUnit;
 import java.util.regex.Pattern;
 
+import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.api.BDDAssertions.then;
 
@@ -18,7 +19,16 @@ class OrderDeleteEventProducerTest extends KafkaTestContext {
   private OrderDeleteEventProducer sut;
 
   @Test
-  void given_a_valid_message_when_sent_then_is_registered() {
+  void given_a_valid_message_when_sent_then_must_not_throw_exception() {
+    // Given
+    final var request = OrderMother.random();
+
+    // Then
+    assertThatNoException().isThrownBy(() -> sut.sendDeleteEvent(request));
+  }
+
+  @Test
+  void given_a_valid_message_when_sent_then_must_produce_valid_message() {
     // Given
     final var request = OrderMother.random();
 
