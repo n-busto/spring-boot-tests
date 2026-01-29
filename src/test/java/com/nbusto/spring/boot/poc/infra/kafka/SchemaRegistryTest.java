@@ -8,11 +8,13 @@ import io.confluent.kafka.schemaregistry.client.SchemaRegistryClient;
 import io.confluent.kafka.schemaregistry.client.rest.exceptions.RestClientException;
 import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import org.apache.avro.Schema;
-import org.apache.avro.generic.IndexedRecord;
+import org.apache.avro.specific.SpecificRecord;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.errors.SerializationException;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
@@ -24,13 +26,16 @@ import org.springframework.test.annotation.DirtiesContext;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DirtiesContext
 @Import(SchemaRegistryTest.TestConfig.class)
 class SchemaRegistryTest extends KafkaTestContext {
 
 
-  private static final String TOPIC = "test-";
+  private static final String TOPIC = "test-topic";
 
   private static final String SUBJECT = "test-value";
 
@@ -94,14 +99,11 @@ class SchemaRegistryTest extends KafkaTestContext {
     final var event = new TestEvent.TestEventBuilder().build();
 
     // Expect
-    Assertions.assertThrows(Exception.class, () -> template.send(TOPIC, event));
+    assertThrows(SerializationException.class, () -> template.send(TOPIC, event));
   }
 
   @TestConfiguration
   static class TestConfig<K, V> {
-
-    @Autowired
-    private KafkaProperties properties;
 
     @Bean
     public SchemaRegistryClient schemaRegistryClient() {
@@ -115,12 +117,17 @@ class SchemaRegistryTest extends KafkaTestContext {
 
     @Bean
     public ProducerFactory<K, V> producerFactory() {
-      return new DefaultKafkaProducerFactory<>(properties.buildProducerProperties(null));
+      return new DefaultKafkaProducerFactory<>(Map.of(
+        ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class,
+        ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class,
+        "schema.registry.url", KafkaTestContext.buildSchemaRegistryServerUri(),
+        ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaTestContext.buildBoostrapServers()
+      ));
     }
 
   }
 
-  private record TestEvent(int id, String name) implements IndexedRecord {
+  private record TestEvent(int id, String name) implements SpecificRecord {
 
     @Override
     public void put(int i, Object v) {
